@@ -33,9 +33,7 @@ function App() {
             />
             <Route
               path="/dashboard/*"
-              element={
-                <Dashboard username={username} setUsername={setUsername} />
-              }
+              element={<Dashboard username={username} />}
             />
           </Routes>
         </BrowserRouter>
