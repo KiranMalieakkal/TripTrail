@@ -3,6 +3,7 @@ import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import { createContext, useState } from "react";
+import CountryForm from "./components/CountryForm";
 // import { AuthProvider } from "./components/AuthProvider";
 
 type IsAuthenticatedContextType = {
@@ -35,6 +36,7 @@ function App() {
               path="/dashboard/*"
               element={<Dashboard username={username} />}
             />
+            <Route path="/form" element={<CountryForm />} />
           </Routes>
         </BrowserRouter>
       </isAuthenticatedContext.Provider>

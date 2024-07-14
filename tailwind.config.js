@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        map: "url('/Users/salt-dev/Desktop/Personal/hackweekdemo/src/assets/mapImage2.jpg')",
+        map: "url('src/assets/mapImage2.jpg')",
+        journal: "url('src/assets/mapImage3.jpg')",
       },
     },
   },

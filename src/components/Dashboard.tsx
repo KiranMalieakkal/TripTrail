@@ -92,6 +92,7 @@ function Dashboard({ username }: DashboardProps) {
           <Route path="section1" element={<Section1 />} />
           <Route path="section2" element={<Section2 />} />
           <Route path="section3" element={<Section3 />} />
+          {/* <Route path="form" element={<CountryForm />} /> */}
         </Routes>
       </div>
     </div>

@@ -1,5 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 function Section1() {
-  return <div>Section 1 Content </div>;
+  const navigate = useNavigate();
+  function handleClick() {
+    navigate("/form");
+  }
+  return (
+    <div>
+      <button onClick={handleClick}>Form</button>{" "}
+    </div>
+  );
 }
 
 export default Section1;
