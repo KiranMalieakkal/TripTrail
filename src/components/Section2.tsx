@@ -1,8 +1,15 @@
 // src/Section2.tsx
-import React from "react";
+
+import Map from "./Map";
 
 function Section2() {
-  return <div>Section 2 Content</div>;
+  return (
+    <>
+      <div className="border-cyan-300">
+        <Map />
+      </div>
+    </>
+  );
 }
 
 export default Section2;

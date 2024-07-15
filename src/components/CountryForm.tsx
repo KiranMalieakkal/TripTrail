@@ -53,8 +53,9 @@ function CountryForm() {
     //     name: formData.fullName,
     //     bootcamp: formData.bootCamp,
     //   });
-    // navigate("/dashboard/section1");
+
     console.log(formData);
+    // navigate("/dashboard/section1");
   }
 
   return (
