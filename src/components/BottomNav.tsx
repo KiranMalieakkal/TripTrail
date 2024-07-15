@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 
 function BottomNav() {
   return (
-    <div className=" w-full bg-gray-400 shadow-xl ">
+    <div className="fixed bottom-0 w-full bg-gray-400 shadow-xl ">
       <div className="flex justify-around items-center h-16">
         <Link
           to="section1"

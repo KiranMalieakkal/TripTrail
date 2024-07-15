@@ -5,7 +5,7 @@ import Map from "./Map";
 function Section2() {
   return (
     <>
-      <div className="border-cyan-300">
+      <div className="overflow-y-auto border-cyan-300">
         <Map />
       </div>
     </>
