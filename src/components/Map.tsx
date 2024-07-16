@@ -36,7 +36,7 @@ function Map() {
                     <Geography
                       key={geo.id}
                       geography={geo}
-                      fill={isColored ? "red" : "grey"}
+                      fill={isColored ? "black" : "white"}
                       stroke="#FFF"
                       style={{
                         default: { outline: "none" },

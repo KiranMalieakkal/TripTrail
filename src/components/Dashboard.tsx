@@ -1,7 +1,7 @@
-import { Link, Route, Routes } from "react-router-dom";
-import Section1 from "./Section1";
-import Section2 from "./Section2";
-import Section3 from "./Section3";
+import { Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import MapComp from "./MapComp";
+import Profile from "./Profile";
 import { useContext } from "react";
 import { isAuthenticatedContext } from "../App";
 import BottomNav from "./BottomNav";
@@ -28,19 +28,19 @@ function Dashboard({ username }: DashboardProps) {
 
   return (
     <>
-      <div className="flex flex-col">
-        <div className="flex-grow">
-          <Routes>
-            <Route path="section1" element={<Section1 />} />
-            <Route path="section2" element={<Section2 />} />
-            <Route path="section3" element={<Section3 />} />
-            {/* <Route path="form" element={<CountryForm />} /> */}
-          </Routes>
-        </div>
-        <div>
-          <BottomNav />
-        </div>
+      {/* <div className="flex flex-col"> */}
+      <div className="">
+        <Routes>
+          <Route path="home" element={<Home />} />
+          <Route path="map" element={<MapComp />} />
+          <Route path="profile" element={<Profile />} />
+          {/* <Route path="form" element={<CountryForm />} /> */}
+        </Routes>
       </div>
+      <div>
+        <BottomNav />
+      </div>
+      {/* </div> */}
     </>
   );
 }

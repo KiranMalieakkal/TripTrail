@@ -7,6 +7,15 @@ export default {
         map: "url('src/assets/mapImage2.jpg')",
         journal: "url('src/assets/mapImage3.jpg')",
       },
+      fontFamily: {
+        merriweather: ["Merriweather"],
+      },
+      colors: {
+        custom: {
+          primary: "#CCCCCC",
+          secondary: "#adaaaa",
+        },
+      },
     },
   },
   plugins: [],
