@@ -147,8 +147,8 @@ function TravelEntry({ username }: Props) {
   };
 
   return (
-    <div className="container bg-center flexas flex-col justify-center mt-10 bg-animated mb-24">
-      <h1 className="text-lg text-custom-font-primary font-bold text-center">
+    <div className="container mt-6 bg-center bg-animated mb-24 ml-auto mr-auto">
+      <h1 className="text-lg text-custom-font-primary font-bold text-center lg:mt-28">
         Travel Details
       </h1>
       <div className="max-w-md mx-auto p-4 border bg-white rounded-lg shadow-md ">
@@ -212,7 +212,7 @@ function TravelEntry({ username }: Props) {
                 className="w-full border px-2 py-1 rounded"
               />
             ) : (
-              <p>{formData.places}</p>
+              <p className="break-words whitespace-normal">{formData.places}</p>
             )}
           </div>
 
@@ -227,7 +227,9 @@ function TravelEntry({ username }: Props) {
                 className="w-full border px-2 py-1 rounded"
               />
             ) : (
-              <p>{formData.startDate}</p>
+              <p className="break-words whitespace-normal">
+                {formData.startDate}
+              </p>
             )}
           </div>
 
@@ -242,7 +244,9 @@ function TravelEntry({ username }: Props) {
                 className="w-full border px-2 py-1 rounded"
               />
             ) : (
-              <p>{formData.duration}</p>
+              <p className="break-words whitespace-normal">
+                {formData.duration}
+              </p>
             )}
           </div>
 
@@ -257,7 +261,7 @@ function TravelEntry({ username }: Props) {
                 className="w-full border px-2 py-1 rounded"
               />
             ) : (
-              <p>{formData.budget}</p>
+              <p className="break-words whitespace-normal">{formData.budget}</p>
             )}
           </div>
 
@@ -271,7 +275,9 @@ function TravelEntry({ username }: Props) {
                 className="w-full border px-2 py-1 rounded"
               />
             ) : (
-              <p>{formData.journalEntry}</p>
+              <p className="break-words whitespace-normal">
+                {formData.journalEntry}
+              </p>
             )}
           </div>
 
@@ -285,7 +291,9 @@ function TravelEntry({ username }: Props) {
                 className="w-full border px-2 py-1 rounded"
               />
             ) : (
-              <p>{formData.travelTips}</p>
+              <p className="break-words whitespace-normal">
+                {formData.travelTips}
+              </p>
             )}
           </div>
         </div>

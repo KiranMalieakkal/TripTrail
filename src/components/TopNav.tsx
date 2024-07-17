@@ -1,9 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 
-function BottomNav() {
+function TopNav() {
   return (
-    <div className="fixed bottom-0 w-full bg-black shadow-xl lg:hidden">
-      <div className="flex justify-around items-center h-16">
+    <div className="hidden lg:block fixed top-0 w-full bg-black shadow-xl ">
+      <div className="flex justify-around items-center h-24">
         <Link to="home" className=" text-white hover:text-red-500">
           <div className="flex flex-col items-center">
             <svg
@@ -59,4 +59,4 @@ function BottomNav() {
     </div>
   );
 }
-export default BottomNav;
+export default TopNav;

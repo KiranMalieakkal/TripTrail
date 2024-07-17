@@ -38,7 +38,7 @@ function Home({ username }: Props) {
   return (
     <div className="h-full w-full">
       <div className="px-6 py-4">
-        <h1 className=" mb-6 text-lg font-bold text-center ">
+        <h1 className=" mb-6 text-lg font-bold text-center lg:mt-24 ">
           Countries Visited
         </h1>
         {tripdata?.length > 0 ? (

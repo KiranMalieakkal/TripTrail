@@ -7,6 +7,7 @@ import { isAuthenticatedContext } from "../App";
 import BottomNav from "./BottomNav";
 import { useQuery } from "@tanstack/react-query";
 import TravelEntry from "./TravelEntry";
+import TopNav from "./TopNav";
 
 export type DashboardProps = {
   username: string;
@@ -39,6 +40,9 @@ function Dashboard({ username }: DashboardProps) {
   return (
     <>
       {/* <div className="flex flex-col"> */}
+      <div>
+        <TopNav />
+      </div>
       <div className="">
         <Routes>
           <Route path="home" element={<Home username={username} />} />
