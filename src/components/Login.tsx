@@ -29,7 +29,7 @@ function Login({ username, setUsername }: LoginProps) {
 
   const handleLogin = () => {
     if (validateUser(username, password)) {
-      navigate("/dashboard/section1");
+      navigate("/dashboard/home");
     } else {
       setLoginError(true);
       //   alert("Invalid credentials");

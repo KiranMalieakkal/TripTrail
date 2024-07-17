@@ -30,7 +30,7 @@ function Map() {
               geographies.map((geo: Feature<Geometry, CustomProperties>) => {
                 const { iso_a3, name } = geo.properties;
                 const isColored = countryNames.includes(name);
-                //   console.log(name + ++count);
+                console.log(name + ++count);
                 return (
                   <>
                     <Geography
