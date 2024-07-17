@@ -49,25 +49,6 @@ export const tripDetailsContext = createContext<tripDetailsContextType>({
 
 function App() {
   const [username, setUsername] = useState("");
-  const [tripDetails, setTripDetails] = useState<
-    SetStateAction<{
-      country: string;
-      places: string;
-      startDate: string | null | Date;
-      duration: number;
-      budget: number;
-      journalEntry: string;
-      travelTips: string;
-    }>
-  >({
-    country: "",
-    places: "",
-    startDate: "",
-    duration: 0,
-    budget: 0,
-    journalEntry: "",
-    travelTips: "",
-  });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   return (
     <>
@@ -84,8 +65,8 @@ function App() {
               path="/dashboard/*"
               element={<Dashboard username={username} />}
             />
-            <Route path="/form" element={<CountryForm />} />
-            <Route path="/traveldetails/:id" element={<TravelEntry />} />
+            <Route path="/form" element={<CountryForm username={username} />} />
+            {/* <Route path="/traveldetails/:id" element={<TravelEntry />} /> */}
           </Routes>
         </BrowserRouter>
       </isAuthenticatedContext.Provider>

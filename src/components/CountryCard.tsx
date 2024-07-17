@@ -3,8 +3,8 @@ type Props = {
   id: number;
   places: string;
   country: string;
-  duration: string;
-  budget: string;
+  duration: number;
+  budget: number;
   journalEntry: string;
   travelTips: string;
   image: string;
@@ -23,7 +23,7 @@ const CountryCard = ({
 }: Props) => {
   const navigate = useNavigate();
   const handleCardClick = () => {
-    navigate(`/traveldetails/${id}`);
+    navigate(`traveldetails/${id}`);
   };
   return (
     <>

@@ -1,16 +1,88 @@
 import { useNavigate, useParams } from "react-router-dom";
 import mockdata from "../assets/mockdata";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { NewPost } from "./CountryForm";
+
+type Props2 = {
+  countryName: string;
+  places: string;
+  startDate: string;
+  duration: number;
+  budget: number;
+  journalEntry: string;
+  travelTips: string;
+};
 
 type Params = {
   id: string;
 };
-function TravelEntry() {
+type Props = {
+  username: string;
+};
+function TravelEntry({ username }: Props) {
   const { id } = useParams<Params>();
-  const numericId = parseInt(id!);
-  const initialData = mockdata[numericId - 1];
+  // const numericId = parseInt(id!);
+
+  const [formData, setFormData] = useState({
+    countryName: "",
+    places: "",
+    startDate: "",
+    duration: 0,
+    budget: 0,
+    journalEntry: "",
+    travelTips: "",
+  });
+  const [invalidInputError, setError] = useState("");
+  const { data } = useQuery({
+    queryKey: ["fetch2"],
+    queryFn: () =>
+      fetch(`http://localhost:3000/api/users/${username}/trips/${id}`)
+        .then((response) => response.json())
+        .then((data) => data),
+  });
+
+  const queryClient = useQueryClient();
+  const {
+    mutate: postTrip,
+    error: postError,
+    isPending,
+  } = useMutation<unknown, Error, NewPost>({
+    mutationFn: (newPost) =>
+      fetch(`http://localhost:3000/api/users/${username}/trips/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPost),
+      }).then((res) => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fetch2"] });
+    },
+  });
+
+  const {
+    mutate: deleteTrip,
+    error: deleteError,
+    isPending: deleteStatus,
+  } = useMutation<unknown, Error, string>({
+    mutationFn: (id) =>
+      fetch(`http://localhost:3000/api/users/${username}/trips/${id}`, {
+        method: "DELETE",
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fetch1", "fetch3"] });
+      navigate(-1);
+      console.log("delete successful");
+    },
+  });
+
+  useEffect(() => {
+    setFormData({ ...data });
+  }, [data]);
+
   const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({ ...initialData });
+  // const [formData, setFormData] = useState({ ...initialData });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,16 +93,53 @@ function TravelEntry() {
 
   const handleSave = () => {
     setEditMode(false);
-    console.log(formData);
+    if (formData.countryName == "") {
+      setError("Please select a country");
+    } else if (formData.places == "") {
+      setError("Please enter the places you visited ");
+    } else if (formData.startDate == "") {
+      setError("Start Date cannot be empty ");
+    } else if (formData.duration <= 0) {
+      setError("Please enter the duration");
+    } else if (formData.budget <= 0) {
+      setError("Please enter a budget");
+    } else if (formData.journalEntry == "") {
+      setError("Please give a Journal Entry");
+    } else if (formData.travelTips == "") {
+      setError("Please give travel tips");
+    } else {
+      setError("");
+      setFormData({
+        countryName: "",
+        places: "",
+        startDate: "",
+        duration: 0,
+        budget: 0,
+        journalEntry: "",
+        travelTips: "",
+      });
+      postTrip({
+        countryName: formData.countryName,
+        places: formData.places,
+        startDate: formData.startDate,
+        duration: formData.duration,
+        budget: formData.budget,
+        journalEntry: formData.journalEntry,
+        travelTips: formData.travelTips,
+      });
+    }
   };
 
   const handleEdit = () => {
     setEditMode(true);
+
+    console.log(formData);
   };
 
   const handleDelete = () => {
-    navigate(-1);
-    console.log(formData.country + "is deleted");
+    deleteTrip(id!);
+    // navigate(-1);
+    console.log(formData.countryName + "is deleted");
   };
 
   const handleBack = () => {
@@ -38,11 +147,11 @@ function TravelEntry() {
   };
 
   return (
-    <div className="container bg-center flexas flex-col justify-center mt-10 bg-animated">
+    <div className="container bg-center flexas flex-col justify-center mt-10 bg-animated mb-24">
       <h1 className="text-lg text-custom-font-primary font-bold text-center">
         Travel Details
       </h1>
-      <div className="max-w-md mx-auto p-4 border bg-white rounded-lg shadow-md">
+      <div className="max-w-md mx-auto p-4 border bg-white rounded-lg shadow-md ">
         <div className="flex justify-between items-center mb-4">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded"
@@ -87,12 +196,8 @@ function TravelEntry() {
         </div>
         <div className="flex items-center justify-center mb-4 bg-gray-200 rounded-lg p-4">
           {" "}
-          <img
-            src={formData.image}
-            alt=""
-            className="w-16 h-16 rounded mr-6 "
-          />
-          <h2 className="text-2xl font-bold">{formData.country}</h2>
+          <img src={data?.image} alt="" className="w-16 h-16 rounded mr-6 " />
+          <h2 className="text-2xl font-bold">{formData.countryName}</h2>
         </div>
 
         <div className="space-y-4">

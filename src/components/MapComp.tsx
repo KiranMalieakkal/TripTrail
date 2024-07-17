@@ -2,12 +2,12 @@
 
 import Map from "./Map";
 
-function MapComp() {
+function MapComp({ username }) {
   return (
     <>
       <div className="flex flex-col h-screen items-center justify-center">
         <h1 className="mt-10 text-lg text-center ">Travel Footprints👣</h1>
-        <Map />
+        <Map username={username} />
       </div>
     </>
   );

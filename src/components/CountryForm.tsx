@@ -1,25 +1,54 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import countries from "../assets/countries";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type NewPost = {
-  name: string;
-  bootcamp: string;
+  countryName: string;
+  places: string;
+  startDate: string;
+  duration: number;
+  budget: number;
+  journalEntry: string;
+  travelTips: string;
 };
 
-function CountryForm() {
+type Props = {
+  username: string;
+};
+
+function CountryForm({ username }: Props) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const {
+    mutate: postTrip,
+    error: postError,
+    isPending,
+  } = useMutation<unknown, Error, NewPost>({
+    mutationFn: (newPost) =>
+      fetch(`http://localhost:3000/api/users/${username}/trips`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPost),
+      }).then((res) => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fetch1", "fetch3"] });
+      navigate("/dashboard/home");
+    },
+  });
   const [formData, setFormData] = useState({
-    country: "",
+    countryName: "",
     places: "",
     startDate: "",
-    duration: "",
-    budget: "",
+    duration: 0,
+    budget: 0,
     journalEntry: "",
     travelTips: "",
   });
 
-  //   const [invalidInputError, setError] = useState("");
+  const [invalidInputError, setError] = useState("");
 
   function handleChange(
     event: ChangeEvent<
@@ -39,23 +68,45 @@ function CountryForm() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // if (formData.fullName == "") {
-    //   setError("Enter full name");
-    // } else if (formData.bootCamp == "") {
-    //   setError("Choose a bootcamp");
-    // } else {
-    //   setError("");
-    //   setFormData({
-    //     fullName: "",
-    //     bootCamp: "",
-    //   });
-    //   postDeveloper({
-    //     name: formData.fullName,
-    //     bootcamp: formData.bootCamp,
-    //   });
+    if (formData.countryName == "") {
+      setError("Please select a country");
+    } else if (formData.places == "") {
+      setError("Please enter the places you visited ");
+    } else if (formData.startDate == "") {
+      setError("Start Date cannot be empty ");
+    } else if (formData.duration <= 0) {
+      setError("Please enter the duration");
+    } else if (formData.budget <= 0) {
+      setError("Please enter a budget");
+    } else if (formData.journalEntry == "") {
+      setError("Please give a Journal Entry");
+    } else if (formData.travelTips == "") {
+      setError("Please give travel tips");
+    } else {
+      setError("");
+      setFormData({
+        countryName: "",
+        places: "",
+        startDate: "",
+        duration: 0,
+        budget: 0,
+        journalEntry: "",
+        travelTips: "",
+      });
+      postTrip({
+        countryName: formData.countryName,
+        places: formData.places,
+        startDate: formData.startDate,
+        duration: formData.duration,
+        budget: formData.budget,
+        journalEntry: formData.journalEntry,
+        travelTips: formData.travelTips,
+      });
 
-    console.log(formData);
-    // navigate("/dashboard/section1");
+      console.log(formData);
+      // navigate("/dashboard/map");
+      console.log(username);
+    }
   }
 
   return (
@@ -78,7 +129,7 @@ function CountryForm() {
               <select
                 id="country"
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={formData.country}
+                value={formData.countryName}
                 onFocus={(e) => {
                   e.target.size = 10;
                 }}
@@ -86,7 +137,7 @@ function CountryForm() {
                   e.target.size = 1;
                 }}
                 onChange={handleChange}
-                name="country"
+                name="countryName"
               >
                 <option value="">--Choose--</option>
                 {countries.map((country) => (
@@ -143,7 +194,7 @@ function CountryForm() {
                 name="duration"
                 type="number"
                 placeholder="Duration of the Trip"
-                value={formData.duration}
+                value={formData.duration!}
                 onChange={handleChange}
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -160,10 +211,8 @@ function CountryForm() {
                 id="budget"
                 name="budget"
                 type="number"
-                min={0}
-                step={100}
                 placeholder="Budget"
-                value={formData.budget}
+                value={formData.budget!}
                 onChange={handleChange}
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -179,6 +228,7 @@ function CountryForm() {
               <textarea
                 id="journalEntry"
                 name="journalEntry"
+                placeholder="Enter your favourite moments"
                 value={formData.journalEntry}
                 onChange={handleChange}
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -195,6 +245,7 @@ function CountryForm() {
               <textarea
                 id="travelTips"
                 name="travelTips"
+                placeholder="Enter some travel tips"
                 value={formData.travelTips}
                 onChange={handleChange}
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -207,6 +258,9 @@ function CountryForm() {
             >
               Add Trip
             </button>
+            {invalidInputError && (
+              <p className="text-red-500 ">{invalidInputError}</p>
+            )}
           </form>
         </div>
       </div>

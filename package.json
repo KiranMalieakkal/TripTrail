@@ -14,6 +14,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@tanstack/react-query": "^5.51.4",
     "@types/geojson": "^7946.0.14",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

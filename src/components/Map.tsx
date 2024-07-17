@@ -8,6 +8,7 @@ import { Feature, Geometry } from "geojson";
 import mapdata from "../assets/mapdata";
 import mockdata from "../assets/mockdata";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 const geoUrl =
   "https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson";
@@ -17,8 +18,15 @@ interface CustomProperties {
   name: string;
 }
 
-function Map() {
-  const countryNames = mockdata.map((entry) => entry.country);
+function Map({ username }) {
+  const { data } = useQuery({
+    queryKey: ["fetch3"],
+    queryFn: () =>
+      fetch(`http://localhost:3000/api/users/${username}/trips`)
+        .then((response) => response.json())
+        .then((data) => data),
+  });
+  const countryNames = data?.map((entry) => entry.countryName);
   const countriesToColor = ["USA", "CAN", "BRA"]; // ISO codes of countries to color
   let count = 0;
   return (
@@ -29,8 +37,7 @@ function Map() {
             {({ geographies }) =>
               geographies.map((geo: Feature<Geometry, CustomProperties>) => {
                 const { iso_a3, name } = geo.properties;
-                const isColored = countryNames.includes(name);
-                console.log(name + ++count);
+                const isColored = countryNames?.includes(name);
                 return (
                   <>
                     <Geography
@@ -38,6 +45,7 @@ function Map() {
                       geography={geo}
                       fill={isColored ? "black" : "white"}
                       stroke="#FFF"
+                      preserveAspectRatio="false"
                       style={{
                         default: { outline: "none" },
                         hover: { outline: "black" },

@@ -1,16 +1,15 @@
 const data = [
   {
-    id: 1,
-    country: "Japan",
-    places: "Tokyo, Kyoto, Osaka",
-    startDate: "2023-04-01",
-    duration: "14",
-    budget: "2500",
-    journalEntry:
-      "Cherry blossoms were in full bloom, and the food was incredible.",
-    travelTips: "Get a JR Pass for convenient travel around the country.",
-    image:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/255px-Flag_of_France.svg.png",
+    countryId: 73,
+    tripId: 2,
+    places: "ind, Kochi, Pune",
+    countryName: "India",
+    startDate: "2020-07-05",
+    duration: 699,
+    budget: 7000,
+    journalEntry: "ind is a cool place.",
+    travelTips: "Bombing pak is the best!!!!!",
+    image: "http://example.com/flags/india.png",
   },
   {
     id: 2,

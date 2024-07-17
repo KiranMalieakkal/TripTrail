@@ -4,7 +4,7 @@ function BottomNav() {
   return (
     <div className="fixed bottom-0 w-full bg-black shadow-xl">
       <div className="flex justify-around items-center h-16">
-        <NavLink to="home" className=" text-white hover:text-red-500">
+        <Link to="home" className=" text-white hover:text-red-500">
           <div className="flex flex-col items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -18,8 +18,8 @@ function BottomNav() {
 
             <span className="text-sm">Home</span>
           </div>
-        </NavLink>
-        <NavLink to="map" className=" text-white hover:text-red-500">
+        </Link>
+        <Link to="map" className=" text-white hover:text-red-500">
           <div className="flex flex-col items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -36,8 +36,8 @@ function BottomNav() {
             </svg>
             <span className="text-sm">Map</span>
           </div>
-        </NavLink>
-        <NavLink to="profile" className=" text-white hover:text-red-500">
+        </Link>
+        <Link to="profile" className=" text-white hover:text-red-500">
           <div className="flex flex-col items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +54,7 @@ function BottomNav() {
 
             <span className="text-sm">Profile</span>
           </div>
-        </NavLink>
+        </Link>
       </div>
     </div>
   );
