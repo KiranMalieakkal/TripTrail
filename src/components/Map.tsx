@@ -2,7 +2,6 @@ import {
   ComposableMap,
   Geographies,
   Geography,
-  Graticule,
   ZoomableGroup,
 } from "react-simple-maps";
 import { Feature, Geometry } from "geojson";
