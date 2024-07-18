@@ -104,7 +104,6 @@ function Map({ username }: Props) {
             : `You have travelled to ${uniqueCountries?.length} country`}
         </p>
         <p className="mt-4 mb-6 sm:mb-20 black flex justify-center items-center text-center">
-          <FaLightbulb className="text-black mr-2" />
           TripTrail AI Suggestion: {aiSuggestion}
         </p>
       </div>

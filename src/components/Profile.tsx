@@ -9,9 +9,8 @@ function Profile({ username }: Props) {
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState({
     avatar:
-      "https://png.pngtree.com/png-clipart/20210915/ourlarge/pngtree-user-avatar-placeholder-png-image_3918418.jpg", // default or fetched avatar URL
-    username: "John Doe",
-    countriesVisited: 5, // example number of countries visited
+      "https://png.pngtree.com/png-clipart/20210915/ourlarge/pngtree-user-avatar-placeholder-png-image_3918418.jpg",
+    username: username,
   });
 
   const handleLogout = () => {
