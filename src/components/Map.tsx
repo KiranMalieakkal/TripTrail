@@ -6,7 +6,7 @@ import {
 } from "react-simple-maps";
 import { Feature, Geometry } from "geojson";
 import mapdata from "../assets/mapdata";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { dataType } from "./Home";
 import { FaGlobe } from "react-icons/fa";
@@ -31,6 +31,20 @@ function Map({ username }: Props) {
         .then((data) => data),
   });
   const [countryNames, setCountrynames] = useState<string[]>([]);
+  const [mapProjection, setMapProjection] = useState("geoEqualEarth");
+  const projectionList = [
+    "geoAlbers",
+    "geoAlbersUsa",
+    "geoAzimuthalEqualArea",
+    "geoAzimuthalEquidistant",
+    "geoOrthographic",
+    "geoConicConformal",
+    "geoConicEqualArea",
+    "geoConicEquidistant",
+    "geoStereographic",
+    "geoMercator",
+    "geoTransverseMercator",
+  ];
 
   useEffect(() => {
     setCountrynames(data?.map((entry: dataType) => entry.countryName));
@@ -77,16 +91,36 @@ function Map({ username }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
+    setMapProjection(e.target.value);
+  }
+
   return (
     <>
-      <ComposableMap>
+      <div className="flex justify-end items-center w-full mr-10">
+        <p className="mr-2">mapProjections: </p>
+        <select
+          id="country"
+          className="block lg:w-1/5 md:w-1/3 w-1/5 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onChange={handleChange}
+          name="countryName"
+        >
+          <option value="geoEqualEarth">geoEqualEarth</option>
+          {projectionList.map((country) => (
+            <option key={country} value={country}>
+              {country}
+            </option>
+          ))}
+        </select>
+      </div>
+      <ComposableMap projection={mapProjection}>
         <ZoomableGroup>
           <Geographies geography={mapdata}>
             {({ geographies }) =>
               geographies.map((geo: Feature<Geometry, CustomProperties>) => {
                 const { name } = geo.properties;
                 const isColored = countryNames?.includes(name);
-                console.log(countryNames);
+                // console.log(countryNames);
                 return (
                   <>
                     <Geography
@@ -108,9 +142,9 @@ function Map({ username }: Props) {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-      <div className="sm:mb-24 md:mb-24 lg:mb-4 bg-black m-10 shadow-2xl rounded-lg">
+      <div className="mb-24 text-sm md:mb-24 lg:mb-4 bg-black ml-8 mr-8 shadow-2xl rounded-lg">
         {countryNames && (
-          <p className="text-lg font-semibold text-white flex justify-center items-center text-center">
+          <p className="text-base font-semibold text-white flex justify-center items-center text-center">
             <FaGlobe className="text-white mr-2" />
             {uniqueCountries?.length !== 1
               ? `You have travelled to ${uniqueCountries?.length} countries `
