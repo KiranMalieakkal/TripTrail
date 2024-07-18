@@ -121,14 +121,14 @@ function TravelEntry({ username }: Props) {
       setError("Please enter the places you visited ");
     } else if (formData.startDate == "") {
       setError("Start Date cannot be empty ");
-    } else if (formData.duration <= 0) {
-      setError("Please enter a positive duration");
-    } else if (formData.budget <= 0) {
-      setError("Please enter a postive budget");
     } else if (formData.duration === null) {
       setError("Please enter a  duration");
     } else if (formData.budget === null) {
       setError("Please enter a  budget");
+    } else if (formData.duration <= 0) {
+      setError("Please enter a positive duration");
+    } else if (formData.budget <= 0) {
+      setError("Please enter a postive budget");
     } else {
       setEditMode(false);
       setError("");

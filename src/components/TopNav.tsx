@@ -5,7 +5,7 @@ function TopNav() {
   return (
     <>
       <div className="hidden fixed top-0 w-full bg-black shadow-xl lg:flex items-center">
-        <img src={logo} className="h-14 w-40 m-3"></img>
+        <img src={logo} className="h-16 w-50 ml-4"></img>
         <div className="flex flex-1 justify-around items-center h-24">
           <Link to="home" className=" text-white hover:text-red-500">
             <div className="flex flex-col items-center">
