@@ -80,8 +80,7 @@ function Map({ username }: Props) {
 
   return (
     <>
-      <ComposableMap projection="geoConicConformal">
-        {/* <Graticule stroke="#F53" /> */}
+      <ComposableMap>
         <ZoomableGroup>
           <Geographies geography={mapdata}>
             {({ geographies }) =>
