@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/Triptrail_Logo.png";
 
 function TopNav() {
@@ -7,7 +7,12 @@ function TopNav() {
       <div className="hidden fixed top-0 w-full bg-black shadow-xl lg:flex items-center">
         <img src={logo} className="h-16 w-50 ml-4"></img>
         <div className="flex flex-1 justify-around items-center h-24">
-          <Link to="home" className=" text-white hover:text-red-500">
+          <NavLink
+            to="home"
+            className={({ isActive }) =>
+              isActive ? "text-white " : "text-gray-500 hover:text-white "
+            }
+          >
             <div className="flex flex-col items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -21,8 +26,13 @@ function TopNav() {
 
               <span className="text-sm">Home</span>
             </div>
-          </Link>
-          <Link to="map" className=" text-white hover:text-red-500">
+          </NavLink>
+          <NavLink
+            to="map"
+            className={({ isActive }) =>
+              isActive ? "text-white " : "text-gray-500 hover:text-white "
+            }
+          >
             <div className="flex flex-col items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -39,8 +49,13 @@ function TopNav() {
               </svg>
               <span className="text-sm">Map</span>
             </div>
-          </Link>
-          <Link to="forum" className=" text-white hover:text-red-500">
+          </NavLink>
+          <NavLink
+            to="forum"
+            className={({ isActive }) =>
+              isActive ? "text-white " : "text-gray-500 hover:text-white "
+            }
+          >
             <div className="flex flex-col items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,8 +73,13 @@ function TopNav() {
 
               <span className="text-sm">Forum</span>
             </div>
-          </Link>
-          <Link to="profile" className=" text-white hover:text-red-500">
+          </NavLink>
+          <NavLink
+            to="profile"
+            className={({ isActive }) =>
+              isActive ? "text-white " : "text-gray-500 hover:text-white "
+            }
+          >
             <div className="flex flex-col items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +96,7 @@ function TopNav() {
 
               <span className="text-sm">Profile</span>
             </div>
-          </Link>
+          </NavLink>
         </div>
       </div>
     </>
