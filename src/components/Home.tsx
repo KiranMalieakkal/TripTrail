@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import CountryCard from "./CountryCard";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { FaPlane } from "react-icons/fa";
 
 export type dataType = {
   countryId: number;
@@ -38,9 +39,11 @@ function Home({ username }: Props) {
   return (
     <div className="h-full w-full">
       <div className="px-6 py-4">
-        <h1 className=" mb-6 text-lg font-bold text-center lg:mt-24 ">
-          Countries Visited
-        </h1>
+        {tripdata?.length > 0 && (
+          <h1 className=" mb-6 text-lg font-bold text-center lg:mt-28 ">
+            Countries Visited
+          </h1>
+        )}
         {tripdata?.length > 0 ? (
           tripdata?.map((trip: dataType) => (
             <CountryCard
@@ -57,13 +60,18 @@ function Home({ username }: Props) {
             />
           ))
         ) : (
-          <div>Please add your trips</div>
+          <div className="flex flex-col items-center justify-center p-6 mt-40 ">
+            <FaPlane className="text-6xl text-black mb-4 animate-bounce" />
+            <p className="text-xl font-semibold text-black">
+              Please add your trips
+            </p>
+          </div>
         )}
         <div className=" mb-24 text-center">
           <button
-            className="bg-red-500 font-inika text-white py-3 px-12 rounded-lg mt-2 font-bold text-xl"
+            className="bg-custom-secondary text-black py-3 px-12 rounded-lg mt-2 font-bold text-xl"
             onClick={() => {
-              navigate("/form");
+              navigate("/dashboard/home/form");
               console.log(tripdata);
             }}
           >

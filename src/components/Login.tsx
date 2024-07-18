@@ -45,7 +45,7 @@ function Login({ username, setUsername }: LoginProps) {
   }
 
   return (
-    <div className=" bg-map bg-cover bg-center h-screen flex items-center justify-center">
+    <div className=" bg-journal bg-center h-screen flex items-center justify-center bg-animated">
       <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center w-3/5 md:w-1/3">
         <h2 className="mb-4 text-2xl">Login</h2>
         <input

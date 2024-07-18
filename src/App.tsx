@@ -65,7 +65,7 @@ function App() {
               path="/dashboard/*"
               element={<Dashboard username={username} />}
             />
-            <Route path="/form" element={<CountryForm username={username} />} />
+            {/* <Route path="/form" element={<CountryForm username={username} />} /> */}
             {/* <Route path="/traveldetails/:id" element={<TravelEntry />} /> */}
           </Routes>
         </BrowserRouter>

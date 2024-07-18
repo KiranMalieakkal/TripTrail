@@ -1,18 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import mockdata from "../assets/mockdata";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { NewPost } from "./CountryForm";
-
-type Props2 = {
-  countryName: string;
-  places: string;
-  startDate: string;
-  duration: number;
-  budget: number;
-  journalEntry: string;
-  travelTips: string;
-};
 
 type Params = {
   id: string;
@@ -85,7 +74,9 @@ function TravelEntry({ username }: Props) {
   // const [formData, setFormData] = useState({ ...initialData });
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     setFormData({ ...formData, [name]: value });
@@ -148,13 +139,13 @@ function TravelEntry({ username }: Props) {
 
   return (
     <div className="container mt-6 bg-center bg-animated mb-24 ml-auto mr-auto">
-      <h1 className="text-lg text-custom-font-primary font-bold text-center lg:mt-28">
+      <h1 className="text-lg text-custom-font-primary font-bold text-center lg:mt-32">
         Travel Details
       </h1>
       <div className="max-w-md mx-auto p-4 border bg-white rounded-lg shadow-md ">
         <div className="flex justify-between items-center mb-4">
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className=" text-black px-4 py-2 rounded"
             onClick={handleBack}
           >
             <svg
@@ -186,7 +177,7 @@ function TravelEntry({ username }: Props) {
               </button>
             ) : (
               <button
-                className="bg-blue-500 text-white px-4 py-2 rounded"
+                className="bg-custom-secondary text-white px-4 py-2 rounded"
                 onClick={handleEdit}
               >
                 Edit

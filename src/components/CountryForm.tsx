@@ -111,8 +111,24 @@ function CountryForm({ username }: Props) {
 
   return (
     <>
-      <div className=" bg-journal bg-center h-screen flex justify-center mt-10 bg-animated">
+      <div className=" bg-journal bg-center h-screen flex justify-center mt-10 lg:mt-32 bg-animated">
         <div className="formContainer bg-white p-6 md:p-8 rounded-lg shadow-lg flex flex-col items-center w-full max-w-lg overflow-y-auto">
+          <div className="mr-auto ">
+            <button className="ml-0" onClick={() => navigate(-1)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="size-6"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
           <h1 className="text-3xl font-bold mb-6">Add Trip</h1>
           <form
             id="countryForm"

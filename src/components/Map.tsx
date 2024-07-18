@@ -6,19 +6,23 @@ import {
 } from "react-simple-maps";
 import { Feature, Geometry } from "geojson";
 import mapdata from "../assets/mapdata";
-import mockdata from "../assets/mockdata";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-
-const geoUrl =
-  "https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson";
+import { dataType } from "./Home";
+import { FaGlobe, FaLightbulb } from "react-icons/fa";
 
 interface CustomProperties {
   iso_a3: string;
   name: string;
 }
 
-function Map({ username }) {
+type Props = {
+  username: string;
+};
+
+function Map({ username }: Props) {
+  const API_KEY = import.meta.env.VITE_API_KEY;
+  const [aiSuggestion, setAisuggestion] = useState<string>("");
   const { data } = useQuery({
     queryKey: ["fetch3"],
     queryFn: () =>
@@ -26,9 +30,42 @@ function Map({ username }) {
         .then((response) => response.json())
         .then((data) => data),
   });
-  const countryNames = data?.map((entry) => entry.countryName);
-  const countriesToColor = ["USA", "CAN", "BRA"]; // ISO codes of countries to color
-  let count = 0;
+  const countryNames = data?.map((entry: dataType) => entry.countryName);
+  const uniqueCountries = data?.reduce((acc: string[], trip: dataType) => {
+    if (!acc.includes(trip.countryName)) {
+      acc.push(trip.countryName);
+    }
+    return acc;
+  }, []);
+
+  async function processMessageToChatGPT() {
+    const systemMessage = {
+      role: "system",
+      content: `Imagine you are replying to a user in a app who has travlled to these countries ${countryNames}. Give the user suggestion on countries he/she should travel right now according to current season and why in 25 words`,
+    };
+    const apiRequestBody = {
+      model: "gpt-3.5-turbo",
+      messages: [systemMessage],
+    };
+
+    await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + API_KEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(apiRequestBody),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setAisuggestion(data.choices[0].message.content);
+      });
+  }
+
+  useEffect(() => {
+    processMessageToChatGPT();
+  }, []);
+
   return (
     <>
       <ComposableMap>
@@ -36,7 +73,7 @@ function Map({ username }) {
           <Geographies geography={mapdata}>
             {({ geographies }) =>
               geographies.map((geo: Feature<Geometry, CustomProperties>) => {
-                const { iso_a3, name } = geo.properties;
+                const { name } = geo.properties;
                 const isColored = countryNames?.includes(name);
                 return (
                   <>
@@ -59,6 +96,18 @@ function Map({ username }) {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
+      <div>
+        <p className="text-lg font-semibold text-black flex justify-center items-center text-center">
+          <FaGlobe className="text-black mr-2" />
+          {uniqueCountries?.length !== 1
+            ? `You have travelled to ${uniqueCountries?.length} countries `
+            : `You have travelled to ${uniqueCountries?.length} country`}
+        </p>
+        <p className="mt-4 mb-6 sm:mb-20 black flex justify-center items-center text-center">
+          <FaLightbulb className="text-black mr-2" />
+          TripTrail AI Suggestion: {aiSuggestion}
+        </p>
+      </div>
     </>
   );
 }

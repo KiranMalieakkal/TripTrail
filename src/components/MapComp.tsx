@@ -2,11 +2,16 @@
 
 import Map from "./Map";
 
-function MapComp({ username }) {
+type Props = {
+  username: string;
+};
+function MapComp({ username }: Props) {
   return (
     <>
       <div className="flex flex-col h-screen items-center justify-center ">
-        <h1 className="text-lg text-center lg:mt-28 ">Travel Footprints👣</h1>
+        <h1 className="text-lg text-center font-bold lg:mt-32 ">
+          Travel Footprints👣
+        </h1>
         <Map username={username} />
       </div>
     </>

@@ -17,5 +17,5 @@ body {
 }
 
 .bg-animated {
-  animation: backgroundAnimation 60s linear infinite;
+  animation: backgroundAnimation 120s linear infinite;
 }

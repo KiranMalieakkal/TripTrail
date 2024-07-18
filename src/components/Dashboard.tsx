@@ -8,6 +8,7 @@ import BottomNav from "./BottomNav";
 import { useQuery } from "@tanstack/react-query";
 import TravelEntry from "./TravelEntry";
 import TopNav from "./TopNav";
+import CountryForm from "./CountryForm";
 
 export type DashboardProps = {
   username: string;
@@ -47,11 +48,14 @@ function Dashboard({ username }: DashboardProps) {
         <Routes>
           <Route path="home" element={<Home username={username} />} />
           <Route path="map" element={<MapComp username={username} />} />
-          <Route path="profile" element={<Profile />} />
-          {/* <Route path="form" element={<CountryForm />} /> */}
+          <Route path="profile" element={<Profile username={username} />} />
           <Route
             path="home/traveldetails/:id"
             element={<TravelEntry username={username} />}
+          />
+          <Route
+            path="home/form"
+            element={<CountryForm username={username} />}
           />
         </Routes>
       </div>
