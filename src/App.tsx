@@ -2,10 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
-import { SetStateAction, createContext, useState } from "react";
-import CountryForm from "./components/CountryForm";
-import TravelEntry from "./components/TravelEntry";
-// import { AuthProvider } from "./components/AuthProvider";
+import { createContext, useState } from "react";
 
 type IsAuthenticatedContextType = {
   isAuthenticated: boolean;
@@ -22,11 +19,6 @@ export type trip = {
   travelTips: string;
 };
 
-type tripDetailsContextType = {
-  tripDetails: trip;
-  setTripDetails: (x: trip) => void;
-};
-
 export const isAuthenticatedContext = createContext<IsAuthenticatedContextType>(
   {
     isAuthenticated: false,
@@ -34,21 +26,8 @@ export const isAuthenticatedContext = createContext<IsAuthenticatedContextType>(
   }
 );
 
-export const tripDetailsContext = createContext<tripDetailsContextType>({
-  tripDetails: {
-    country: "",
-    places: "",
-    startDate: "",
-    duration: 0,
-    budget: 0,
-    journalEntry: "",
-    travelTips: "",
-  },
-  setTripDetails: () => {},
-});
-
 function App() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("default");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   return (
     <>

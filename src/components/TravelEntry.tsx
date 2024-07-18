@@ -23,12 +23,19 @@ function TravelEntry({ username }: Props) {
     travelTips: "",
   });
   const [invalidInputError, setError] = useState("");
-  const { data } = useQuery({
+  const [postErrorDisplay, setPostErrorDisplay] = useState(false);
+  const [deleteErrorDisplay, setDeleteErrorDisplay] = useState(false);
+  const [fetchErrorLog, setfetchErrorLog] = useState("");
+
+  const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch2"],
     queryFn: () =>
       fetch(`http://localhost:3000/api/users/${username}/trips/${id}`)
         .then((response) => response.json())
-        .then((data) => data),
+        .then((data) => data)
+        .catch((e) => {
+          setfetchErrorLog(e.message);
+        }),
   });
 
   const queryClient = useQueryClient();
@@ -61,8 +68,16 @@ function TravelEntry({ username }: Props) {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["fetch1", "fetch3"] });
+      setFormData({
+        countryName: "",
+        places: "",
+        startDate: "",
+        duration: 0,
+        budget: 0,
+        journalEntry: "",
+        travelTips: "",
+      });
       navigate(-1);
-      console.log("delete successful");
     },
   });
 
@@ -70,8 +85,25 @@ function TravelEntry({ username }: Props) {
     setFormData({ ...data });
   }, [data]);
 
+  useEffect(() => {
+    if (postError) {
+      setPostErrorDisplay(true);
+      setTimeout(() => {
+        setPostErrorDisplay(false);
+      }, 2000);
+    }
+  }, [postError]);
+
+  useEffect(() => {
+    if (deleteError) {
+      setDeleteErrorDisplay(true);
+      setTimeout(() => {
+        setDeleteErrorDisplay(false);
+      }, 2000);
+    }
+  }, [deleteError]);
+
   const [editMode, setEditMode] = useState(false);
-  // const [formData, setFormData] = useState({ ...initialData });
   const navigate = useNavigate();
 
   const handleChange = (
@@ -83,7 +115,6 @@ function TravelEntry({ username }: Props) {
   };
 
   const handleSave = () => {
-    setEditMode(false);
     if (formData.countryName == "") {
       setError("Please select a country");
     } else if (formData.places == "") {
@@ -91,24 +122,16 @@ function TravelEntry({ username }: Props) {
     } else if (formData.startDate == "") {
       setError("Start Date cannot be empty ");
     } else if (formData.duration <= 0) {
-      setError("Please enter the duration");
+      setError("Please enter a positive duration");
     } else if (formData.budget <= 0) {
-      setError("Please enter a budget");
-    } else if (formData.journalEntry == "") {
-      setError("Please give a Journal Entry");
-    } else if (formData.travelTips == "") {
-      setError("Please give travel tips");
+      setError("Please enter a postive budget");
+    } else if (formData.duration === null) {
+      setError("Please enter a  duration");
+    } else if (formData.budget === null) {
+      setError("Please enter a  budget");
     } else {
+      setEditMode(false);
       setError("");
-      setFormData({
-        countryName: "",
-        places: "",
-        startDate: "",
-        duration: 0,
-        budget: 0,
-        journalEntry: "",
-        travelTips: "",
-      });
       postTrip({
         countryName: formData.countryName,
         places: formData.places,
@@ -285,6 +308,24 @@ function TravelEntry({ username }: Props) {
               <p className="break-words whitespace-normal">
                 {formData.travelTips}
               </p>
+            )}
+            {invalidInputError && (
+              <p className="text-red-500 break-words whitespace-normal text-center">
+                {invalidInputError}
+              </p>
+            )}
+            {postErrorDisplay && (
+              <p className="text-red-500 break-words whitespace-normal">{`Sorry, Changes could not be saved. Please try again later. ${postError}`}</p>
+            )}
+            {isPending ||
+              (deleteStatus && (
+                <p className="text-red-500 break-words whitespace-normal">{`Loading...`}</p>
+              ))}
+            {deleteErrorDisplay && (
+              <p className="text-red-500 break-words whitespace-normal">{`Sorry, Delete did not work. Please try again later. ${postError}`}</p>
+            )}
+            {fetchError && (
+              <p className="text-red-500 break-words whitespace-normal text-center">{`Sorry , We are unable to retrieve your data. Please try again later. ERROR MESSAGE - ${fetchErrorLog}`}</p>
             )}
           </div>
         </div>

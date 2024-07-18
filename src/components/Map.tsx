@@ -9,7 +9,7 @@ import mapdata from "../assets/mapdata";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { dataType } from "./Home";
-import { FaGlobe, FaLightbulb } from "react-icons/fa";
+import { FaGlobe } from "react-icons/fa";
 
 interface CustomProperties {
   iso_a3: string;
@@ -30,7 +30,12 @@ function Map({ username }: Props) {
         .then((response) => response.json())
         .then((data) => data),
   });
-  const countryNames = data?.map((entry: dataType) => entry.countryName);
+  const [countryNames, setCountrynames] = useState<string[]>([]);
+
+  useEffect(() => {
+    setCountrynames(data?.map((entry: dataType) => entry.countryName));
+  }, [data]);
+
   const uniqueCountries = data?.reduce((acc: string[], trip: dataType) => {
     if (!acc.includes(trip.countryName)) {
       acc.push(trip.countryName);
@@ -38,16 +43,17 @@ function Map({ username }: Props) {
     return acc;
   }, []);
 
+  const [fetchError, setfetchError] = useState(false);
+  const [fetchErrorLog, setfetchErrorLog] = useState("");
   async function processMessageToChatGPT() {
     const systemMessage = {
       role: "system",
-      content: `Imagine you are replying to a user in a app who has travlled to these countries ${countryNames}. Give the user suggestion on countries he/she should travel right now according to current season and why in 25 words`,
+      content: `Imagine you are displaying a suggestion to a user with the name ${username} in a app and he/she has travlled to these countries ${countryNames}. Give the user suggestion refeering to the users name on countries he/she should travel right now according to current season and why in 25 words`,
     };
     const apiRequestBody = {
       model: "gpt-3.5-turbo",
       messages: [systemMessage],
     };
-
     await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -58,12 +64,17 @@ function Map({ username }: Props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setAisuggestion(data.choices[0].message.content);
+        setAisuggestion(data?.choices[0].message.content);
+      })
+      .catch((e) => {
+        setfetchError(true);
+        setfetchErrorLog(e.message);
       });
   }
 
   useEffect(() => {
     processMessageToChatGPT();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -75,6 +86,7 @@ function Map({ username }: Props) {
               geographies.map((geo: Feature<Geometry, CustomProperties>) => {
                 const { name } = geo.properties;
                 const isColored = countryNames?.includes(name);
+                console.log(countryNames);
                 return (
                   <>
                     <Geography
@@ -96,16 +108,38 @@ function Map({ username }: Props) {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-      <div>
-        <p className="text-lg font-semibold text-black flex justify-center items-center text-center">
-          <FaGlobe className="text-black mr-2" />
-          {uniqueCountries?.length !== 1
-            ? `You have travelled to ${uniqueCountries?.length} countries `
-            : `You have travelled to ${uniqueCountries?.length} country`}
-        </p>
-        <p className="mt-4 mb-6 sm:mb-20 black flex justify-center items-center text-center">
-          TripTrail AI Suggestion: {aiSuggestion}
-        </p>
+      <div className="sm:mb-24 md:mb-24 lg:mb-0">
+        {countryNames && (
+          <p className="text-lg font-semibold text-black flex justify-center items-center text-center">
+            <FaGlobe className="text-black mr-2" />
+            {uniqueCountries?.length !== 1
+              ? `You have travelled to ${uniqueCountries?.length} countries `
+              : `You have travelled to ${uniqueCountries?.length} country`}
+          </p>
+        )}
+        {!countryNames && (
+          <p className="text-red-500 text-sm break-words whitespace-normal flex justify-center items-center text-center">
+            <FaGlobe className="text-black mr-2" />
+            We are having some trouble retrieving your data. Please try again
+            later
+          </p>
+        )}
+        {!fetchError &&
+          (aiSuggestion !== "" ? (
+            <p className="mt-4 mb-6 black flex justify-center items-center text-center">
+              TripTrail AI Suggestion: {aiSuggestion}
+            </p>
+          ) : (
+            <p className="mt-4 mb-6 black flex justify-center items-center text-center">
+              Your TripTrail Ai suggestion is loading...
+            </p>
+          ))}
+        {fetchError && (
+          <p className="text-red-500 text-sm break-words whitespace-normal flex justify-center items-center text-center">
+            {" "}
+            {`Sorry, TripTrail Ai is down. Please try again later.${fetchErrorLog}`}
+          </p>
+        )}
       </div>
     </>
   );

@@ -1,11 +1,10 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import MapComp from "./MapComp";
 import Profile from "./Profile";
-import { useContext } from "react";
-import { isAuthenticatedContext } from "../App";
+// import { useContext } from "react";
+// import { isAuthenticatedContext } from "../App";
 import BottomNav from "./BottomNav";
-import { useQuery } from "@tanstack/react-query";
 import TravelEntry from "./TravelEntry";
 import TopNav from "./TopNav";
 import CountryForm from "./CountryForm";
@@ -14,7 +13,7 @@ export type DashboardProps = {
   username: string;
 };
 function Dashboard({ username }: DashboardProps) {
-  const { isAuthenticated } = useContext(isAuthenticatedContext);
+  // const { isAuthenticated } = useContext(isAuthenticatedContext);
 
   // const { data } = useQuery({
   //   queryKey: ["fetch"],

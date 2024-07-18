@@ -26,7 +26,7 @@ function CountryForm({ username }: Props) {
     isPending,
   } = useMutation<unknown, Error, NewPost>({
     mutationFn: (newPost) =>
-      fetch(`http://localhost:3001/api/users/${username}/trips`, {
+      fetch(`http://localhost:3000/api/users/${username}/trips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,6 @@ function CountryForm({ username }: Props) {
   }
 
   useEffect(() => {
-    // console.log("errr", deleteError);
     if (postError) {
       setPostErrorDisplay(true);
       setTimeout(() => {
@@ -95,24 +94,15 @@ function CountryForm({ username }: Props) {
     } else if (formData.startDate == "") {
       setError("Start Date cannot be empty ");
     } else if (formData.duration! <= 0) {
-      setError("Please enter the duration");
+      setError("Please enter a positive duration");
     } else if (formData.budget! <= 0) {
-      setError("Please enter a budget");
-    } else if (formData.journalEntry == "") {
-      setError("Please give a Journal Entry");
-    } else if (formData.travelTips == "") {
-      setError("Please give travel tips");
+      setError("Please enter a postive budget");
+    } else if (formData.duration === null) {
+      setError("Please enter a  duration");
+    } else if (formData.budget === null) {
+      setError("Please enter a  budget");
     } else {
       setError("");
-      // setFormData({
-      //   countryName: "",
-      //   places: "",
-      //   startDate: "",
-      //   duration: null,
-      //   budget: null,
-      //   journalEntry: "",
-      //   travelTips: "",
-      // });
       postTrip({
         countryName: formData.countryName,
         places: formData.places,
@@ -160,7 +150,7 @@ function CountryForm({ username }: Props) {
                 htmlFor="country"
                 className="block text-gray-700 font-medium mb-1"
               >
-                *Country
+                <sup>*</sup>Country
               </label>
               <select
                 id="country"
@@ -190,7 +180,7 @@ function CountryForm({ username }: Props) {
                 htmlFor="places"
                 className="block text-gray-700 font-medium mb-1"
               >
-                Places Visited
+                <sup>*</sup>Places Visited
               </label>
               <textarea
                 id="places"
@@ -207,7 +197,7 @@ function CountryForm({ username }: Props) {
                 htmlFor="startDate"
                 className="block text-gray-700 font-medium mb-1"
               >
-                Start Date
+                <sup>*</sup>Start Date
               </label>
               <input
                 id="startDate"
@@ -224,7 +214,7 @@ function CountryForm({ username }: Props) {
                 htmlFor="duration"
                 className="block text-gray-700 font-medium mb-1"
               >
-                Duration of the Trip (days)
+                <sup>*</sup>Duration of the Trip (days)
               </label>
               <input
                 id="duration"
@@ -242,7 +232,7 @@ function CountryForm({ username }: Props) {
                 htmlFor="budget"
                 className="block text-gray-700 font-medium mb-1"
               >
-                Total Per Head Budget
+                <sup>*</sup>Total Per Head Budget($)
               </label>
               <input
                 id="budget"

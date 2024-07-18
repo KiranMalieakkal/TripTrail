@@ -23,12 +23,16 @@ export type Props = {
 
 function Home({ username }: Props) {
   const [tripdata, setTripdata] = useState([]);
-  const { data } = useQuery({
+  const [fetchErrorLog, setfetchErrorLog] = useState("");
+  const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch1"],
     queryFn: () =>
       fetch(`http://localhost:3000/api/users/${username}/trips`)
         .then((response) => response.json())
-        .then((data) => data),
+        .then((data) => data)
+        .catch((e) => {
+          setfetchErrorLog(e.message);
+        }),
   });
 
   useEffect(() => {
@@ -78,6 +82,9 @@ function Home({ username }: Props) {
             Add
           </button>
         </div>
+        {fetchError && (
+          <p className="text-red-500 break-words whitespace-normal text-center">{`Sorry , We are unable to retrieve your data. Please try again later. ERROR MESSAGE - ${fetchErrorLog}`}</p>
+        )}
       </div>
     </div>
   );
