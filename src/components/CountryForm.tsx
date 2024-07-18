@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import countries from "../assets/countries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -7,8 +7,8 @@ export type NewPost = {
   countryName: string;
   places: string;
   startDate: string;
-  duration: number;
-  budget: number;
+  duration: number | null;
+  budget: number | null;
   journalEntry: string;
   travelTips: string;
 };
@@ -26,7 +26,7 @@ function CountryForm({ username }: Props) {
     isPending,
   } = useMutation<unknown, Error, NewPost>({
     mutationFn: (newPost) =>
-      fetch(`http://localhost:3000/api/users/${username}/trips`, {
+      fetch(`http://localhost:3001/api/users/${username}/trips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,19 +36,29 @@ function CountryForm({ username }: Props) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["fetch1", "fetch3"] });
       navigate("/dashboard/home");
+      setFormData({
+        countryName: "",
+        places: "",
+        startDate: "",
+        duration: null,
+        budget: null,
+        journalEntry: "",
+        travelTips: "",
+      });
     },
   });
   const [formData, setFormData] = useState({
     countryName: "",
     places: "",
     startDate: "",
-    duration: 0,
-    budget: 0,
+    duration: null,
+    budget: null,
     journalEntry: "",
     travelTips: "",
   });
 
   const [invalidInputError, setError] = useState("");
+  const [postErrorDisplay, setPostErrorDisplay] = useState(false);
 
   function handleChange(
     event: ChangeEvent<
@@ -56,7 +66,7 @@ function CountryForm({ username }: Props) {
     >
   ) {
     const { name, value } = event.target;
-    // setError("");
+    setError("");
     setFormData((prevFormData) => {
       return {
         ...prevFormData,
@@ -66,6 +76,16 @@ function CountryForm({ username }: Props) {
     if (name === "country") event.target.blur;
   }
 
+  useEffect(() => {
+    // console.log("errr", deleteError);
+    if (postError) {
+      setPostErrorDisplay(true);
+      setTimeout(() => {
+        setPostErrorDisplay(false);
+      }, 2000);
+    }
+  }, [postError]);
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (formData.countryName == "") {
@@ -74,9 +94,9 @@ function CountryForm({ username }: Props) {
       setError("Please enter the places you visited ");
     } else if (formData.startDate == "") {
       setError("Start Date cannot be empty ");
-    } else if (formData.duration <= 0) {
+    } else if (formData.duration! <= 0) {
       setError("Please enter the duration");
-    } else if (formData.budget <= 0) {
+    } else if (formData.budget! <= 0) {
       setError("Please enter a budget");
     } else if (formData.journalEntry == "") {
       setError("Please give a Journal Entry");
@@ -84,15 +104,15 @@ function CountryForm({ username }: Props) {
       setError("Please give travel tips");
     } else {
       setError("");
-      setFormData({
-        countryName: "",
-        places: "",
-        startDate: "",
-        duration: 0,
-        budget: 0,
-        journalEntry: "",
-        travelTips: "",
-      });
+      // setFormData({
+      //   countryName: "",
+      //   places: "",
+      //   startDate: "",
+      //   duration: null,
+      //   budget: null,
+      //   journalEntry: "",
+      //   travelTips: "",
+      // });
       postTrip({
         countryName: formData.countryName,
         places: formData.places,
@@ -111,7 +131,7 @@ function CountryForm({ username }: Props) {
 
   return (
     <>
-      <div className=" bg-journal bg-center h-screen flex justify-center mt-10 lg:mt-32 bg-animated">
+      <div className=" bg-journal bg-center h-screen flex justify-center mt-10 lg:mt-32 bg-animated sm:mb-28 md:mb:28">
         <div className="formContainer bg-white p-6 md:p-8 rounded-lg shadow-lg flex flex-col items-center w-full max-w-lg overflow-y-auto">
           <div className="mr-auto ">
             <button className="ml-0" onClick={() => navigate(-1)}>
@@ -140,18 +160,19 @@ function CountryForm({ username }: Props) {
                 htmlFor="country"
                 className="block text-gray-700 font-medium mb-1"
               >
-                Country
+                *Country
               </label>
               <select
                 id="country"
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.countryName}
-                onFocus={(e) => {
-                  e.target.size = 10;
-                }}
-                onBlur={(e) => {
-                  e.target.size = 1;
-                }}
+                // onFocus={(e) => {
+                //   e.target.size = 10;
+                // }}
+                // onBlur={(e) => {
+                //   e.target.size = 1;
+                // }}
+                // size={10}
                 onChange={handleChange}
                 name="countryName"
               >
@@ -210,7 +231,7 @@ function CountryForm({ username }: Props) {
                 name="duration"
                 type="number"
                 placeholder="Duration of the Trip"
-                value={formData.duration!}
+                value={formData.duration !== null ? formData.duration : ""}
                 onChange={handleChange}
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -228,7 +249,7 @@ function CountryForm({ username }: Props) {
                 name="budget"
                 type="number"
                 placeholder="Budget"
-                value={formData.budget!}
+                value={formData.budget !== null ? formData.budget : ""}
                 onChange={handleChange}
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -275,7 +296,15 @@ function CountryForm({ username }: Props) {
               Add Trip
             </button>
             {invalidInputError && (
-              <p className="text-red-500 ">{invalidInputError}</p>
+              <p className="text-red-500 break-words whitespace-normal text-center">
+                {invalidInputError}
+              </p>
+            )}
+            {postErrorDisplay && (
+              <p className="text-red-500 break-words whitespace-normal">{`Sorry, Please try again later. ${postError}`}</p>
+            )}
+            {isPending && (
+              <p className="text-red-500 break-words whitespace-normal">{`Loading...`}</p>
             )}
           </form>
         </div>

@@ -24,19 +24,19 @@ function Dashboard({ username }: DashboardProps) {
   //       .then((data) => data),
   // });
 
-  if (!isAuthenticated) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h2 className="mb-4 text-2xl">Please login to continue!!!</h2>
-        <Link
-          to="/"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Go to Login
-        </Link>
-      </div>
-    );
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center h-screen">
+  //       <h2 className="mb-4 text-2xl">Please login to continue!!!</h2>
+  //       <Link
+  //         to="/"
+  //         className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+  //       >
+  //         Go to Login
+  //       </Link>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>

@@ -1,10 +1,10 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function TopNav() {
   return (
     <>
       <div className="hidden lg:block fixed top-0 w-full bg-black shadow-xl ">
-        <p className="text-white z-10 text-sm">TripTrail𓊝</p>
+        <p className="text-white z-10 text-sm">TripTrail</p>
         <div className="flex justify-around items-center h-24">
           <Link to="home" className=" text-white hover:text-red-500">
             <div className="flex flex-col items-center">
