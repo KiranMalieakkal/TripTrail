@@ -32,10 +32,14 @@ function CountryForm({ username }: Props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newPost),
-      }).then((res) => res.json()),
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["fetch1", "fetch3"] });
-      navigate("/dashboard/home");
       setFormData({
         countryName: "",
         places: "",
@@ -45,6 +49,7 @@ function CountryForm({ username }: Props) {
         journalEntry: "",
         travelTips: "",
       });
+      navigate("/dashboard/home");
     },
   });
   const [formData, setFormData] = useState({

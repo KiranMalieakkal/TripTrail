@@ -8,6 +8,7 @@ import BottomNav from "./BottomNav";
 import TravelEntry from "./TravelEntry";
 import TopNav from "./TopNav";
 import CountryForm from "./CountryForm";
+import Forum from "./Forum";
 
 export type DashboardProps = {
   username: string;
@@ -48,6 +49,7 @@ function Dashboard({ username }: DashboardProps) {
           <Route path="home" element={<Home username={username} />} />
           <Route path="map" element={<MapComp username={username} />} />
           <Route path="profile" element={<Profile username={username} />} />
+          <Route path="forum" element={<Forum />} />
           <Route
             path="home/traveldetails/:id"
             element={<TravelEntry username={username} />}
