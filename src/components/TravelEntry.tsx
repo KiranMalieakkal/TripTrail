@@ -166,7 +166,7 @@ function TravelEntry({ username }: Props) {
         Travel Details
       </h1>
       <div className="max-w-md mx-auto p-4 border bg-white rounded-lg shadow-md ">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-start mb-4">
           <button
             className=" text-black px-4 py-2 rounded"
             onClick={handleBack}
@@ -184,34 +184,13 @@ function TravelEntry({ username }: Props) {
               />
             </svg>
           </button>
-          <div>
-            <button
-              className="bg-red-500 text-white px-4 py-2 m-2 rounded"
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
-            {editMode ? (
-              <button
-                className="bg-green-500 text-white px-4 py-2 rounded"
-                onClick={handleSave}
-              >
-                Save Changes
-              </button>
-            ) : (
-              <button
-                className="bg-custom-secondary text-white px-4 py-2 rounded"
-                onClick={handleEdit}
-              >
-                Edit
-              </button>
-            )}
-          </div>
         </div>
-        <div className="flex items-center justify-center mb-4 bg-gray-200 rounded-lg p-4">
+        <div className="flex items-center justify-center mb-4 bg-gray-900 rounded-lg p-4">
           {" "}
           <img src={data?.image} alt="" className="w-16 h-16 rounded mr-6 " />
-          <h2 className="text-2xl font-bold">{formData.countryName}</h2>
+          <h2 className="text-2xl text-white font-bold">
+            {formData.countryName}
+          </h2>
         </div>
 
         <div className="space-y-4">
@@ -327,6 +306,31 @@ function TravelEntry({ username }: Props) {
             {fetchError && (
               <p className="text-red-500 break-words whitespace-normal text-center">{`Sorry , We are unable to retrieve your data. Please try again later. ERROR MESSAGE - ${fetchErrorLog}`}</p>
             )}
+            <div className="flex justify-end">
+              <div>
+                <button
+                  className="bg-red-500 text-white px-4 py-2 m-2 rounded"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+                {editMode ? (
+                  <button
+                    className="bg-green-500 text-white px-4 py-2 rounded"
+                    onClick={handleSave}
+                  >
+                    Save Changes
+                  </button>
+                ) : (
+                  <button
+                    className="bg-custom-secondary text-white px-4 py-2 rounded"
+                    onClick={handleEdit}
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

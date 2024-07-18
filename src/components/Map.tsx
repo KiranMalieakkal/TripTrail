@@ -2,6 +2,7 @@ import {
   ComposableMap,
   Geographies,
   Geography,
+  Graticule,
   ZoomableGroup,
 } from "react-simple-maps";
 import { Feature, Geometry } from "geojson";
@@ -79,7 +80,8 @@ function Map({ username }: Props) {
 
   return (
     <>
-      <ComposableMap>
+      <ComposableMap projection="geoConicConformal">
+        {/* <Graticule stroke="#F53" /> */}
         <ZoomableGroup>
           <Geographies geography={mapdata}>
             {({ geographies }) =>
@@ -97,8 +99,8 @@ function Map({ username }: Props) {
                       preserveAspectRatio="false"
                       style={{
                         default: { outline: "none" },
-                        hover: { outline: "black" },
-                        pressed: { outline: "none" },
+                        hover: { fill: "red" },
+                        pressed: { fill: "red" },
                       }}
                     />
                   </>
@@ -108,10 +110,10 @@ function Map({ username }: Props) {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-      <div className="sm:mb-24 md:mb-24 lg:mb-0">
+      <div className="sm:mb-24 md:mb-24 lg:mb-4 bg-black m-10 shadow-2xl rounded-lg">
         {countryNames && (
-          <p className="text-lg font-semibold text-black flex justify-center items-center text-center">
-            <FaGlobe className="text-black mr-2" />
+          <p className="text-lg font-semibold text-white flex justify-center items-center text-center">
+            <FaGlobe className="text-white mr-2" />
             {uniqueCountries?.length !== 1
               ? `You have travelled to ${uniqueCountries?.length} countries `
               : `You have travelled to ${uniqueCountries?.length} country`}
@@ -119,18 +121,18 @@ function Map({ username }: Props) {
         )}
         {!countryNames && (
           <p className="text-red-500 text-sm break-words whitespace-normal flex justify-center items-center text-center">
-            <FaGlobe className="text-black mr-2" />
+            <FaGlobe className="text-white mr-2" />
             We are having some trouble retrieving your data. Please try again
             later
           </p>
         )}
         {!fetchError &&
           (aiSuggestion !== "" ? (
-            <p className="mt-4 mb-6 black flex justify-center items-center text-center">
+            <p className=" text-white flex justify-center items-center text-center p-2">
               TripTrail AI Suggestion: {aiSuggestion}
             </p>
           ) : (
-            <p className="mt-4 mb-6 black flex justify-center items-center text-center">
+            <p className=" text-white flex justify-center items-center text-center">
               Your TripTrail Ai suggestion is loading...
             </p>
           ))}
