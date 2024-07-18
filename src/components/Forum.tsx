@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ForumCard from "./ForumCard";
 import countries from "../assets/countries";
 
@@ -37,7 +37,7 @@ function Forum() {
     setFilteredData(data);
   }, [data]);
 
-  function handleChange(e) {
+  function handleChange(e: ChangeEvent<HTMLSelectElement>) {
     console.log(e.target.value);
     e.target.value === "All"
       ? setFilteredData(tripdata)
@@ -72,6 +72,9 @@ function Forum() {
           <ForumCard key={trip.tripId} trip={trip} />
         ))}
       </div>
+      {fetchError && (
+        <p className="text-red-500 break-words whitespace-normal text-center">{`Sorry , We are unable to retrieve your data. Please try again later. ERROR MESSAGE - ${fetchErrorLog}`}</p>
+      )}
     </>
   );
 }

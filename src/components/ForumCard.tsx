@@ -20,26 +20,6 @@ interface ForumCardProps {
 
 function ForumCard({ trip }: ForumCardProps) {
   return (
-    // <div className="card bg-white rounded-lg shadow-lg overflow-hidden w-80">
-    //   <img
-    //     src={trip.image}
-    //     alt={`${trip.countryName} flag`}
-    //     className="w-full h-40 object-cover"
-    //   />
-    //   <div className="card-content p-4">
-    //     <h3 className="text-lg font-semibold">
-    //       {trip.countryName} - Tips by {trip.userName}
-    //     </h3>
-    //     <p className="mt-2 text-sm">
-    //       {trip.travelTips.split("\n").map((line, index) => (
-    //         <span key={index}>
-    //           {line}
-    //           <br />
-    //         </span>
-    //       ))}
-    //     </p>
-    //   </div>
-    // </div>
     <div className="flex flex-col bg-white shadow-md rounded-lg ">
       <div className="  flex bg-gray-900 items-center p-4 mb-2">
         <img src={trip.image} alt="" className="w-16 h-16 rounded mr-6" />
