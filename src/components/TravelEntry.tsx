@@ -151,9 +151,14 @@ function TravelEntry({ username }: Props) {
   };
 
   const handleDelete = () => {
-    deleteTrip(id!);
-    // navigate(-1);
-    console.log(formData.countryName + "is deleted");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this entry?"
+    );
+    if (confirmed) {
+      deleteTrip(id!);
+      // navigate(-1);
+      console.log(formData.countryName + " is deleted");
+    }
   };
 
   const handleBack = () => {
