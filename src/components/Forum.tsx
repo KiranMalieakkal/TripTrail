@@ -68,7 +68,7 @@ function Forum() {
         </select>
       </div>
       <div className="forum grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 sm:mb-16 md:mb-16 ">
-        {filteredData.map((trip: dataType) => (
+        {filteredData?.map((trip: dataType) => (
           <ForumCard key={trip.tripId} trip={trip} />
         ))}
       </div>
