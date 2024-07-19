@@ -2,6 +2,7 @@ import { ChangeEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import userdata from "../assets/userdata";
 import { isAuthenticatedContext } from "../App";
+import logo from "../assets/Triptrail_Logo.png";
 
 export type LoginProps = {
   username: string;
@@ -45,8 +46,9 @@ function Login({ username, setUsername }: LoginProps) {
   }
 
   return (
-    <div className=" bg-journal bg-center h-screen flex items-center justify-center bg-animated">
-      <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center w-3/5 md:w-1/3">
+    <div className=" bg-journal bg-center h-screen flex flex-col items-center justify-center  bg-animated">
+      <img src={logo} className="ml-4 lg:w-2/4"></img>
+      <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center w-3/5 md:w-1/3 lg:w1/3">
         <h2 className="mb-4 text-2xl">Login</h2>
         <input
           type="text"
