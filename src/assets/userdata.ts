@@ -24,12 +24,11 @@ const userdata = [
       "https://media.licdn.com/dms/image/D4E03AQH-S4RHqtjNWg/profile-displayphoto-shrink_400_400/0/1715118436143?e=1726704000&v=beta&t=MY1dbNkkiM1GNeXolmEM96ZPYyhRsJbeD4neh-zvzvU",
   },
   {
-    username: "default",
-    password: "default",
-    email: "defaultuser@gmail.com",
+    username: "Alek",
+    password: "Alek",
+    email: "Alek@gmail.com",
     phone: "+46 333 4444 5555",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU_l0FN8gOw4XSjY3TFNrwUi7UhThpak2DppjgfjVp2E3cEoWk0saK5tcVgQWzSuyyHt8&usqp=CAU",
+    image: "https://ca.slack-edge.com/TA01UCHBN-U068H00G83Z-a66138e76622-192",
   },
 ];
 

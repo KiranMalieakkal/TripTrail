@@ -27,7 +27,7 @@ export const isAuthenticatedContext = createContext<IsAuthenticatedContextType>(
 );
 
 function App() {
-  const [username, setUsername] = useState("default");
+  const [username, setUsername] = useState("Alek");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   return (
     <>
