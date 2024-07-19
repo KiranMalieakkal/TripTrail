@@ -34,7 +34,7 @@ function CountryForm({ username }: Props) {
         body: JSON.stringify(newPost),
       }).then((res) => {
         if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+          throw new Error(`Error Status: ${res.status}`);
         }
         return res.json();
       }),
@@ -283,13 +283,6 @@ function CountryForm({ username }: Props) {
                 className="block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
-            >
-              Add Trip
-            </button>
             {invalidInputError && (
               <p className="text-red-500 break-words whitespace-normal text-center">
                 {invalidInputError}
@@ -301,6 +294,12 @@ function CountryForm({ username }: Props) {
             {isPending && (
               <p className="text-red-500 break-words whitespace-normal">{`Loading...`}</p>
             )}
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+            >
+              Add Trip
+            </button>
           </form>
         </div>
       </div>

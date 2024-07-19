@@ -28,7 +28,7 @@ const CountryCard = ({
   return (
     <>
       <div
-        className="bg-white shadow-md rounded-lg flex items-center p-4 mb-4"
+        className="bg-white shadow-md rounded-lg flex items-center p-4 mb-4 cursor-pointer hover:-translate-y-1 hover:shadow-black"
         onClick={handleCardClick}
       >
         <img src={image} alt="" className="w-16 h-16 rounded mr-6" />
@@ -50,7 +50,7 @@ const CountryCard = ({
           </div>
         </div>
         <div className="ml-4 text-center text-sm">
-          <p className="text-sm  text-custom-font-primary ">Budget</p>
+          <p className="text-sm  text-custom-font-primary ">Budget($)</p>
           <p className="text-lg font-semibold text-custom-font-primary">
             {budget}
           </p>
