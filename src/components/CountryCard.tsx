@@ -14,10 +14,10 @@ const CountryCard = ({
   id,
   places,
   country,
-  duration,
+  // duration,
   budget,
-  journalEntry,
-  travelTips,
+  // journalEntry,
+  // travelTips,
   image,
   date,
 }: Props) => {
