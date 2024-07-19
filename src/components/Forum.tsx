@@ -42,7 +42,7 @@ function Forum() {
     e.target.value === "All"
       ? setFilteredData(tripdata)
       : setFilteredData(
-          filteredData.filter(
+          tripdata.filter(
             (item: dataType) => item.countryName === e.target.value
           )
         );
