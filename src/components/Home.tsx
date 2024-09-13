@@ -71,7 +71,7 @@ function Home({ username }: Props) {
             </p>
           </div>
         )}
-        <div className=" mb-24 text-center">
+        <div className=" mb-24 lg:mb-4 text-center">
           <button
             className="bg-custom-secondary text-black py-3 px-12 rounded-lg mt-2 font-bold text-xl"
             onClick={() => {
