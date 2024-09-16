@@ -1,0 +1,7 @@
+{
+    "scripts": {
+      "postinstall": "cd frontend && npm install",
+      "postbuild": "cd frontend && npm run build --if-present",
+      "posttest": "cd frontend && npm run test"
+    }
+  }
