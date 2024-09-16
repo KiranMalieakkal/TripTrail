@@ -46,8 +46,8 @@ function Login({ username, setUsername }: LoginProps) {
   }
 
   return (
-    <div className=" bg-journal bg-center h-screen flex flex-col items-center justify-center  bg-animated">
-      <img src={logo} className="ml-4 lg:w-2/4"></img>
+    <div className="bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 h-screen flex flex-col items-center justify-center ">
+      <img src={logo} className="ml-4 lg:w-2/4 p-8"></img>
       <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center w-3/5 md:w-1/3 lg:w1/3">
         <h2 className="mb-4 text-2xl">Login</h2>
         <input
