@@ -31,6 +31,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   return (
     <>
+    <h1>TEST</h1>
       <isAuthenticatedContext.Provider
         value={{ isAuthenticated, setIsAuthenticated }}
       >
