@@ -36,6 +36,7 @@ jobs:
         run: |
           cd frontend
           echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env.local
+          echo "VITE_APP_URI=${{ secrets.VITE_APP_URI }}" >> .env.local
           ls
 
 

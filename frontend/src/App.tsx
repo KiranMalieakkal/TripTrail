@@ -35,7 +35,7 @@ function App() {
       <isAuthenticatedContext.Provider
         value={{ isAuthenticated, setIsAuthenticated }}
       >
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.VITE_APP_URI}>
           <Routes>
             <Route
               path="/"
