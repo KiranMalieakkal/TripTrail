@@ -21,10 +21,11 @@ function Forum() {
   const [tripdata, setTripdata] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [fetchErrorLog, setfetchErrorLog] = useState("");
+  const baseURL= import.meta.env.VITE_BASE_URL
   const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch1"],
     queryFn: () =>
-      fetch(`http://localhost:3000/api/users/forum`)
+      fetch(`${baseURL}/api/users/forum`)
         .then((response) => response.json())
         .then((data) => data)
         .catch((e) => {

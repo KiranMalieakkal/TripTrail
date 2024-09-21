@@ -22,11 +22,13 @@ type Props = {
 
 function Map({ username }: Props) {
   const API_KEY = import.meta.env.VITE_API_KEY;
+  const baseURL= import.meta.env.VITE_BASE_URL
+  
   const [aiSuggestion, setAisuggestion] = useState<string>("");
   const { data } = useQuery({
     queryKey: ["fetch3"],
     queryFn: () =>
-      fetch(`http://localhost:3000/api/users/${username}/trips`)
+      fetch(`${baseURL}/api/users/${username}/trips`)
         .then((response) => response.json())
         .then((data) => data),
   });

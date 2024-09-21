@@ -19,6 +19,7 @@ type Props = {
 
 function CountryForm({ username }: Props) {
   const navigate = useNavigate();
+  const baseURL= import.meta.env.VITE_BASE_URL
   const queryClient = useQueryClient();
   const {
     mutate: postTrip,
@@ -26,7 +27,7 @@ function CountryForm({ username }: Props) {
     isPending,
   } = useMutation<unknown, Error, NewPost>({
     mutationFn: (newPost) =>
-      fetch(`http://localhost:3000/api/users/${username}/trips`, {
+      fetch(`${baseURL}/api/users/${username}/trips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

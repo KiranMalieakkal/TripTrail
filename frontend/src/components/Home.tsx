@@ -24,10 +24,11 @@ export type Props = {
 function Home({ username }: Props) {
   const [tripdata, setTripdata] = useState([]);
   const [fetchErrorLog, setfetchErrorLog] = useState("");
+  const baseURL= import.meta.env.VITE_BASE_URL
   const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch1"],
     queryFn: () =>
-      fetch(`http://localhost:3000/api/users/${username}/trips`)
+      fetch(`${baseURL}/api/users/${username}/trips`)
         .then((response) => response.json())
         .then((data) => data)
         .catch((e) => {
