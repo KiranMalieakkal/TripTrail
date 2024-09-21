@@ -25,7 +25,7 @@ function Forum() {
   const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch1"],
     queryFn: () =>
-      fetch(`${baseURL}/api/users/forum`)
+      fetch(`${baseURL}api/users/forum`)
         .then((response) => response.json())
         .then((data) => data)
         .catch((e) => {

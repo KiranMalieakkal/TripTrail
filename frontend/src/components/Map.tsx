@@ -28,7 +28,7 @@ function Map({ username }: Props) {
   const { data } = useQuery({
     queryKey: ["fetch3"],
     queryFn: () =>
-      fetch(`${baseURL}/api/users/${username}/trips`)
+      fetch(`${baseURL}api/users/${username}/trips`)
         .then((response) => response.json())
         .then((data) => data),
   });

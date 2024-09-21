@@ -28,7 +28,7 @@ function Home({ username }: Props) {
   const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch1"],
     queryFn: () =>
-      fetch(`${baseURL}/api/users/${username}/trips`)
+      fetch(`${baseURL}api/users/${username}/trips`)
         .then((response) => response.json())
         .then((data) => data)
         .catch((e) => {

@@ -27,7 +27,7 @@ function CountryForm({ username }: Props) {
     isPending,
   } = useMutation<unknown, Error, NewPost>({
     mutationFn: (newPost) =>
-      fetch(`${baseURL}/api/users/${username}/trips`, {
+      fetch(`${baseURL}api/users/${username}/trips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
