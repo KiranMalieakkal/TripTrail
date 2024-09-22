@@ -47,7 +47,7 @@ function TravelEntry({ username }: Props) {
     isPending,
   } = useMutation<unknown, Error, NewPost>({
     mutationFn: (newPost) =>
-      fetch(`${baseURL}${username}/trips/${id}`, {
+      fetch(`${baseURL}api/users/${username}/trips/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ function TravelEntry({ username }: Props) {
     isPending: deleteStatus,
   } = useMutation<unknown, Error, string>({
     mutationFn: (id) =>
-      fetch(`${baseURL}${username}/trips/${id}`, {
+      fetch(`${baseURL}api/users/${username}/trips/${id}`, {
         method: "DELETE",
       }),
     onSuccess: () => {
