@@ -201,7 +201,7 @@ function CountryForm({ username }: Props) {
             <div>
               <label
                 htmlFor="startDate"
-                className="block text-gray-700 font-medium mb-1"
+                className="block text-gray-700 font-black mb-1"
               >
                 <sup>*</sup>Start Date
               </label>

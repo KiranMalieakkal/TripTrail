@@ -19,3 +19,7 @@ body {
 .bg-animated {
   animation: backgroundAnimation 100s linear infinite;
 }
+
+html {
+  scroll-behavior: smooth;
+}

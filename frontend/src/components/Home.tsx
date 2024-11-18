@@ -42,7 +42,7 @@ function Home({ username }: Props) {
 
   const navigate = useNavigate();
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full min-h-screen">
       <div className="px-6 py-4">
         {tripdata?.length > 0 && (
           <h1 className=" mb-6 text-lg font-bold text-center lg:mt-28 ">

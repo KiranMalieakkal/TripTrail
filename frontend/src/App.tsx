@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 type IsAuthenticatedContextType = {
   isAuthenticated: boolean;
@@ -27,8 +27,24 @@ export const isAuthenticatedContext = createContext<IsAuthenticatedContextType>(
 );
 
 function App() {
-  const [username, setUsername] = useState("Alek");
+  const [username, setUsername] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  // Check if username is stored in localStorage on component mount
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
+  // Update localStorage whenever username changes
+  useEffect(() => {
+    if (username) {
+      localStorage.setItem("username", username);
+    }
+  }, [username]);
+  
   return (
     <>
       <isAuthenticatedContext.Provider
