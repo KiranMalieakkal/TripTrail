@@ -22,14 +22,19 @@ type Props = {
 
 function Map({ username }: Props) {
   const API_KEY = import.meta.env.VITE_API_KEY;
-  const baseURL= import.meta.env.VITE_BASE_URL
-  
+  const baseURL = import.meta.env.VITE_BASE_URL;
+
   const [aiSuggestion, setAisuggestion] = useState<string>("");
   const { data } = useQuery({
     queryKey: ["fetch3"],
     queryFn: () =>
       fetch(`${baseURL}api/users/${username}/trips`)
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            return Promise.resolve([]);
+          }
+          return response.json();
+        })
         .then((data) => data),
   });
   const [countryNames, setCountrynames] = useState<string[]>([]);
