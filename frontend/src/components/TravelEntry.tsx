@@ -27,13 +27,18 @@ function TravelEntry({ username }: Props) {
   const [postErrorDisplay, setPostErrorDisplay] = useState(false);
   const [deleteErrorDisplay, setDeleteErrorDisplay] = useState(false);
   const [fetchErrorLog, setfetchErrorLog] = useState("");
-  const baseURL= import.meta.env.VITE_BASE_URL
+  const baseURL = import.meta.env.VITE_BASE_URL;
 
   const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch2"],
     queryFn: () =>
       fetch(`${baseURL}api/users/${username}/trips/${id}`)
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            return Promise.resolve({});
+          }
+          return response.json();
+        })
         .then((data) => data)
         .catch((e) => {
           setfetchErrorLog(e.message);
@@ -183,11 +188,11 @@ function TravelEntry({ username }: Props) {
 
   return (
     <>
-      <div className="container mt-6 bg-center bg-animated mb-24 ml-auto mr-auto">
-        <h1 className="text-lg text-custom-font-primary font-bold text-center lg:mt-32">
+      <div className="container p-2 bg-center   ml-auto mr-auto min-h-screen ">
+        <h1 className="text-lg text-custom-font-primary font-bold text-center lg:mt-20">
           Travel Details
         </h1>
-        <div className="max-w-md mx-auto p-4 border bg-white rounded-lg shadow-md ">
+        <div className="max-w-md mx-auto p-4 border bg-white rounded-lg shadow-md mb-20 lg:mb-0">
           <div className="flex justify-start mb-4">
             <button
               className=" text-black px-4 py-2 rounded"
