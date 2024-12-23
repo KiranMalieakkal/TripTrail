@@ -1,16 +1,15 @@
 import { NavLink } from "react-router-dom";
-import logo from "../assets/Triptrail_Logo.png";
 
 function TopNav() {
   return (
     <>
-      <div className="hidden fixed top-0 w-full bg-white shadow-sm lg:flex items-center">
-        <img src={logo} className="h-16 w-50 ml-4"></img>
-        <div className="flex flex-1 justify-around items-center h-24">
+      <div className="hidden navbar fixed top-0 w-full bg-black shadow-sm lg:flex items-center">
+        <a className="btn btn-ghost text-xl text-white">TripTrail</a>
+        <div className="flex flex-1 justify-around items-center ">
           <NavLink
             to="home"
             className={({ isActive }) =>
-              isActive ? "text-black " : "text-gray-500 hover:text-black "
+              isActive ? "text-white " : "text-gray-500 hover:text-white "
             }
           >
             <div className="flex flex-col items-center">
