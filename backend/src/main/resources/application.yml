@@ -10,6 +10,17 @@ server:
 spring:
     config:
         import: optional:file:.env.local[.properties]
+
+    security:
+        oauth2:
+            resource server:
+                jwt:
+                    # Trailing slash is required in this case!
+                    # In others it's prohibited!
+                    # Make sure you double check your case
+                    issuer-uri: ${ISSUER_URI}
+        #          audiences: ${AUDIENCE}
+
     datasource:
         driver-class-name: org.postgresql.Driver
         url: ${DATABASE_URL}
@@ -21,7 +32,7 @@ spring:
     sql:
         init:
             platform: postgresql
-            mode: always
+            mode: never
     jpa:
         show-sql: true
         defer-datasource-initialization: true
