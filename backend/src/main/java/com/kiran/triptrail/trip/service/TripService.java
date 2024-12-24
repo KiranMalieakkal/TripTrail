@@ -10,6 +10,7 @@ import com.kiran.triptrail.trip.repository.TripRepository;
 import com.kiran.triptrail.trip.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,7 +28,13 @@ public class TripService {
 
 
     public User getUserByUserName(String userName) {
-        return userRepository.getByUserName(userName);
+        User user = userRepository.getByUserName(userName);
+        if (user == null) {
+            System.out.println("user = " + user);
+            user = new User(userName);
+            userRepository.saveUser(user);
+        }
+        return user;
     }
 
     public User createUser() {
