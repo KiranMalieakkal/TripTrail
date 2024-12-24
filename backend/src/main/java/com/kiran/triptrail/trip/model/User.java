@@ -11,17 +11,22 @@ import java.util.List;
 @Table(name = "owner")
 public class User {
 
-    @Id
-    @Column(name = "userName")
+    @Column(name = "userName",unique = true)
     private String userName;
 
-    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Trip> trips;
 
     public User() {
+        this.trips = new ArrayList<>();
+    }
+
+    public User(String userName) {
+        this.userName = userName;
         this.trips = new ArrayList<>();
     }
 
@@ -33,6 +38,10 @@ public class User {
 
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Long getId() {

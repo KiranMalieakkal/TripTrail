@@ -96,5 +96,11 @@ public class Controller {
         TripDto dto = TripDto.fromTrip(trip);
         return ResponseEntity.accepted().body(dto);
     }
+
+//    @GetMapping()
+//    public String getUserByUserName() {
+//        return "Logged In";
+//    }
+
 }
 

@@ -12,7 +12,7 @@ public class UserRepository {
     }
 
     public User getByUserName(String userName) {
-        return repo.findById(userName).orElseThrow();
+        return repo.findByUserName(userName).orElseThrow();
     }
 
     public User createUser() {
