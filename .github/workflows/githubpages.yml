@@ -28,19 +28,17 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    env:
+      VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+      VITE_APP_URI: ${{ vars.VITE_APP_URI }}
+      VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+      VITE_AUTH0_CLIENT_ID: ${{ secrets.VITE_AUTH0_CLIENT_ID }}
+      VITE_AUTH0_DOMAIN: ${{ secrets.VITE_AUTH0_DOMAIN }}
+      VITE_REDIRECT_URI: ${{ vars.VITE_REDIRECT_URI }}
+      VITE_AUDIENCE: ${{ vars.VITE_AUDIENCE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Create .env.local
-        run: |
-          cd frontend
-          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env.local
-          echo "VITE_APP_URI=${{ secrets.VITE_APP_URI }}" >> .env.local
-          echo "VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}" >> .env.local
-
-          ls
-
 
       - name: npm install, build, test
         run: |
