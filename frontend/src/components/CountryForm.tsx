@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import countries from "../assets/countries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export type NewPost = {
   countryName: string;
@@ -13,24 +14,39 @@ export type NewPost = {
   travelTips: string;
 };
 
-type Props = {
-  username: string;
-};
-
-function CountryForm({ username }: Props) {
+function CountryForm() {
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const [theToken, setTheToken] = useState<string>();
   const navigate = useNavigate();
   const baseURL = import.meta.env.VITE_BASE_URL;
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    console.log("isauthenticated useEffect");
+    if (isAuthenticated) {
+      console.log("Authenticated");
+      getAccessTokenSilently()
+        .then((token) => {
+          console.log("token=", token);
+          setTheToken(token);
+        })
+        .catch((err) => {
+          console.log("err=", err);
+        });
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
+
   const {
     mutate: postTrip,
     error: postError,
     isPending,
   } = useMutation<unknown, Error, NewPost>({
     mutationFn: (newPost) =>
-      fetch(`${baseURL}api/users/${username}/trips`, {
+      fetch(`${baseURL}api/users/${user?.email}/trips`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${theToken}`,
         },
         body: JSON.stringify(newPost),
       }).then((res) => {
@@ -121,13 +137,12 @@ function CountryForm({ username }: Props) {
 
       console.log(formData);
       // navigate("/dashboard/map");
-      console.log(username);
     }
   }
 
   return (
     <>
-      <div className=" bg-journal bg-center h-screen flex justify-center bg-animated pb-24 pt-8 lg:p-20 lg:pb-4">
+      <div className=" bg-journal bg-center h-screen flex justify-center pb-24 pt-8 lg:p-20 lg:pb-4">
         <div className="formContainer bg-white p-6 md:p-8 rounded-lg shadow-lg flex flex-col items-center w-full max-w-lg overflow-y-auto">
           <div className="mr-auto ">
             <button className="ml-0" onClick={() => navigate(-1)}>

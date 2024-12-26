@@ -3,17 +3,23 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { NewPost } from "./CountryForm";
 import toast, { Toaster } from "react-hot-toast";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type Params = {
   id: string;
 };
-type Props = {
-  username: string;
-};
-function TravelEntry({ username }: Props) {
+
+function TravelEntry() {
   const { id } = useParams<Params>();
   // const numericId = parseInt(id!);
 
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const [theToken, setTheToken] = useState<string>();
+  const [invalidInputError, setError] = useState("");
+  const [postErrorDisplay, setPostErrorDisplay] = useState(false);
+  const [deleteErrorDisplay, setDeleteErrorDisplay] = useState(false);
+  const [fetchErrorLog, setfetchErrorLog] = useState("");
+  const baseURL = import.meta.env.VITE_BASE_URL;
   const [formData, setFormData] = useState({
     countryName: "",
     places: "",
@@ -23,16 +29,31 @@ function TravelEntry({ username }: Props) {
     journalEntry: "",
     travelTips: "",
   });
-  const [invalidInputError, setError] = useState("");
-  const [postErrorDisplay, setPostErrorDisplay] = useState(false);
-  const [deleteErrorDisplay, setDeleteErrorDisplay] = useState(false);
-  const [fetchErrorLog, setfetchErrorLog] = useState("");
-  const baseURL = import.meta.env.VITE_BASE_URL;
+
+  useEffect(() => {
+    console.log("isauthenticated useEffect");
+    if (isAuthenticated) {
+      console.log("Authenticated");
+      getAccessTokenSilently()
+        .then((token) => {
+          console.log("token=", token);
+          setTheToken(token);
+        })
+        .catch((err) => {
+          console.log("err=", err);
+        });
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch2"],
     queryFn: () =>
-      fetch(`${baseURL}api/users/${username}/trips/${id}`)
+      fetch(`${baseURL}api/users/${user?.email}/trips/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${theToken}`,
+        },
+      })
         .then((response) => {
           if (!response.ok) {
             return Promise.resolve({});
@@ -43,6 +64,7 @@ function TravelEntry({ username }: Props) {
         .catch((e) => {
           setfetchErrorLog(e.message);
         }),
+    enabled: () => !!user?.email && !!theToken,
   });
 
   const queryClient = useQueryClient();
@@ -52,10 +74,11 @@ function TravelEntry({ username }: Props) {
     isPending,
   } = useMutation<unknown, Error, NewPost>({
     mutationFn: (newPost) =>
-      fetch(`${baseURL}api/users/${username}/trips/${id}`, {
+      fetch(`${baseURL}api/users/${user?.email}/trips/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${theToken}`,
         },
         body: JSON.stringify(newPost),
       }).then((res) => res.json()),
@@ -70,8 +93,12 @@ function TravelEntry({ username }: Props) {
     isPending: deleteStatus,
   } = useMutation<unknown, Error, string>({
     mutationFn: (id) =>
-      fetch(`${baseURL}api/users/${username}/trips/${id}`, {
+      fetch(`${baseURL}api/users/${user?.email}/trips/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${theToken}`,
+        },
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["fetch1", "fetch3"] });

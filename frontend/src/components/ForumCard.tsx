@@ -21,9 +21,11 @@ function ForumCard({ trip }: ForumCardProps) {
     <div className="flex flex-col bg-white shadow-md rounded-lg ">
       <div className="  flex bg-gray-900 items-center p-4 mb-2">
         <img src={trip.image} alt="" className="w-16 h-16 rounded mr-6" />
-        <div className="flex-1">
+        <div className="flex flex-col  ">
           <h1 className="text-lg text-white  font-bold">{trip.countryName}</h1>
-          <p className="text-white font-semibold">Tips by: {trip.userName}</p>
+          <p className="text-white font-semibold break-words break-all ">
+            Tips by: {trip.userName.split("@")[0]}
+          </p>
         </div>
       </div>
       <div className="flex-1 flex flex-col items-center p-2">
@@ -36,8 +38,8 @@ function ForumCard({ trip }: ForumCardProps) {
         </p>
         <p className="text-custom-font-primary ">Budget: {trip.budget}</p>
       </div>
-      <div className="ml-4 mr-2 justify-self-start">
-        <p className="text-custom-font-primary ">{trip.travelTips}</p>
+      <div className="ml-4 mr-2 justify-center flex">
+        <p className="text-custom-font-primary  ">{trip.travelTips}</p>
       </div>
     </div>
   );

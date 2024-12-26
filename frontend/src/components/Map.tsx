@@ -10,32 +10,56 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { dataType } from "./Home";
 import { FaGlobe } from "react-icons/fa";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface CustomProperties {
   iso_a3: string;
   name: string;
 }
 
-type Props = {
-  username: string;
-};
-
-function Map({ username }: Props) {
+function Map() {
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const [theToken, setTheToken] = useState<string>();
   const API_KEY = import.meta.env.VITE_API_KEY;
   const baseURL = import.meta.env.VITE_BASE_URL;
 
   const [aiSuggestion, setAisuggestion] = useState<string>("");
+
+  useEffect(() => {
+    console.log("isauthenticated useEffect");
+    if (isAuthenticated) {
+      console.log("Authenticated");
+      getAccessTokenSilently()
+        .then((token) => {
+          console.log("token=", token);
+          setTheToken(token);
+        })
+        .catch((err) => {
+          console.log("err=", err);
+        });
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
+
   const { data } = useQuery({
     queryKey: ["fetch3"],
     queryFn: () =>
-      fetch(`${baseURL}api/users/${username}/trips`)
+      fetch(`${baseURL}api/users/${user?.email}/trips`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${theToken}`,
+        },
+      })
         .then((response) => {
           if (!response.ok) {
             return Promise.resolve([]);
           }
           return response.json();
         })
-        .then((data) => data),
+        .then((data) => data)
+        .catch((e) => {
+          setfetchErrorLog(e.message);
+        }),
+    enabled: () => !!user?.email && !!theToken,
   });
   const [countryNames, setCountrynames] = useState<string[]>([]);
   const [mapProjection, setMapProjection] = useState("geoEqualEarth");
@@ -69,7 +93,7 @@ function Map({ username }: Props) {
   async function processMessageToChatGPT() {
     const systemMessage = {
       role: "system",
-      content: `Imagine you are displaying a suggestion to a user with the name ${username} in a app and he/she has travlled to these countries ${countryNames}. Give the user suggestion refeering to the users name on countries he/she should travel right now according to current season and why in 25 words`,
+      content: `Imagine you are displaying a suggestion to a user with the name ${user?.name} in a app and he/she has travlled to these countries ${countryNames}. Give the user suggestion refeering to the users name on countries he/she should travel right now according to current season and why in 25 words`,
     };
     const apiRequestBody = {
       model: "gpt-3.5-turbo",

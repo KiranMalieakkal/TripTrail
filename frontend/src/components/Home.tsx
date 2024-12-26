@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import CountryCard from "./CountryCard";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export type dataType = {
   countryId: number;
@@ -16,23 +17,52 @@ export type dataType = {
   image: string;
 };
 
-export type Props = {
-  username: string;
-};
-
-function Home({ username }: Props) {
+function Home() {
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const [theToken, setTheToken] = useState<string>();
   const [tripdata, setTripdata] = useState([]);
   const [fetchErrorLog, setfetchErrorLog] = useState("");
   const baseURL = import.meta.env.VITE_BASE_URL;
+
+  useEffect(() => {
+    console.log("isauthenticated useEffect");
+    if (isAuthenticated) {
+      console.log("Authenticated");
+      getAccessTokenSilently()
+        .then((token) => {
+          console.log("token=", token);
+          setTheToken(token);
+        })
+        .catch((err) => {
+          console.log("err=", err);
+        });
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
+
   const { data, isError: fetchError } = useQuery({
     queryKey: ["fetch1"],
     queryFn: () =>
-      fetch(`${baseURL}api/users/${username}/trips`)
-        .then((response) => response.json())
+      fetch(`${baseURL}api/users/${user?.email}/trips`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${theToken}`,
+        },
+      })
+        .then((response) => {
+          console.log("fetchinggg");
+          setfetchErrorLog("");
+          if (!response.ok) {
+            setfetchErrorLog("Failed to fetch");
+            console.log("errorrrr");
+            return Promise.resolve([]);
+          }
+          return response.json();
+        })
         .then((data) => data)
         .catch((e) => {
           setfetchErrorLog(e.message);
         }),
+    enabled: () => !!user?.email && !!theToken,
   });
 
   useEffect(() => {
@@ -42,7 +72,7 @@ function Home({ username }: Props) {
   const navigate = useNavigate();
   return (
     <div className="h-full w-full min-h-screen">
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 ">
         {tripdata?.length > 0 && (
           <h1 className=" mb-6 text-lg font-bold text-center lg:mt-20 ">
             Countries Visited
@@ -64,7 +94,7 @@ function Home({ username }: Props) {
             />
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center p-6 mt-40 ">
+          <div className="flex flex-col items-center justify-center p-6 lg:mt-40 ">
             <div className="rounded-xl bg-white">
               <img
                 src={
@@ -85,14 +115,18 @@ function Home({ username }: Props) {
             onClick={() => {
               navigate("/dashboard/home/form");
               console.log(tripdata);
+              console.log(user?.email);
+              console.log(theToken);
             }}
           >
             Add
           </button>
+          {(fetchErrorLog !== "" || fetchError) && (
+            <p className="text-red-500 break-words whitespace-normal text-center">
+              {`Sorry, we are unable to retrieve your data. Please try again later. ERROR MESSAGE - ${fetchErrorLog}`}
+            </p>
+          )}
         </div>
-        {fetchError && (
-          <p className="text-red-500 break-words whitespace-normal text-center">{`Sorry , We are unable to retrieve your data. Please try again later. ERROR MESSAGE - ${fetchErrorLog}`}</p>
-        )}
       </div>
     </div>
   );

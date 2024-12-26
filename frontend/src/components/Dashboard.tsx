@@ -10,10 +10,7 @@ import TopNav from "./TopNav";
 import CountryForm from "./CountryForm";
 import Forum from "./Forum";
 
-export type DashboardProps = {
-  username: string;
-};
-function Dashboard({ username }: DashboardProps) {
+function Dashboard() {
   // const { isAuthenticated } = useContext(isAuthenticatedContext);
 
   // const { data } = useQuery({
@@ -46,18 +43,12 @@ function Dashboard({ username }: DashboardProps) {
       </div>
       <div className="">
         <Routes>
-          <Route path="home" element={<Home username={username} />} />
-          <Route path="map" element={<MapComp username={username} />} />
-          <Route path="profile" element={<Profile username={username} />} />
+          <Route path="home" element={<Home />} />
+          <Route path="map" element={<MapComp />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="forum" element={<Forum />} />
-          <Route
-            path="home/traveldetails/:id"
-            element={<TravelEntry username={username} />}
-          />
-          <Route
-            path="home/form"
-            element={<CountryForm username={username} />}
-          />
+          <Route path="home/traveldetails/:id" element={<TravelEntry />} />
+          <Route path="home/form" element={<CountryForm />} />
         </Routes>
       </div>
       <div>

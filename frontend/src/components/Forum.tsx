@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ForumCard from "./ForumCard";
 import countries from "../assets/countries";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export type dataType = {
   countryId: number;
@@ -18,15 +19,37 @@ export type dataType = {
 };
 
 function Forum() {
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const [theToken, setTheToken] = useState<string>();
   const [tripdata, setTripdata] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [fetchErrorLog, setfetchErrorLog] = useState("");
   const baseURL = import.meta.env.VITE_BASE_URL;
 
+  useEffect(() => {
+    console.log("isauthenticated useEffect");
+    if (isAuthenticated) {
+      console.log("Authenticated");
+      getAccessTokenSilently()
+        .then((token) => {
+          console.log("token=", token);
+          setTheToken(token);
+        })
+        .catch((err) => {
+          console.log("err=", err);
+        });
+    }
+  }, [isAuthenticated, getAccessTokenSilently]);
+
   const { isError: fetchError } = useQuery({
-    queryKey: ["fetch1"],
+    queryKey: ["fetch8"],
     queryFn: () =>
-      fetch(`${baseURL}api/users/forum`)
+      fetch(`${baseURL}api/users/forum`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${theToken}`,
+        },
+      })
         .then((response) => {
           if (!response.ok) {
             return Promise.resolve([]);
@@ -41,6 +64,7 @@ function Forum() {
         .catch((e) => {
           setfetchErrorLog(e.message);
         }),
+    enabled: () => !!user?.email && !!theToken,
   });
 
   // useEffect(() => {
