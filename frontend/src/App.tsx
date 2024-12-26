@@ -1,4 +1,4 @@
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
@@ -16,14 +16,14 @@ export type trip = {
 function App() {
   return (
     <>
-      <HashRouter>
+      <BrowserRouter basename={import.meta.env.VITE_APP_URI}>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
           {/* <Route path="/form" element={<CountryForm username={username} />} /> */}
           {/* <Route path="/traveldetails/:id" element={<TravelEntry />} /> */}
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }
