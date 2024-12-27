@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface UserDbRepository extends ListCrudRepository<User, Long> {
 
-    Optional<User> findByUserName(String username);
+    User findByUserName(String username);
 }
