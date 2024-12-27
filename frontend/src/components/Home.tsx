@@ -113,7 +113,7 @@ function Home() {
           <button
             className="bg-custom-secondary text-black py-3 px-12 rounded-lg  font-bold text-xl"
             onClick={() => {
-              navigate("/dashboard/home/form");
+              navigate("/form");
               console.log(tripdata);
               console.log(user?.email);
               console.log(theToken);

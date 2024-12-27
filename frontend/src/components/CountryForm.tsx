@@ -66,7 +66,7 @@ function CountryForm() {
         journalEntry: "",
         travelTips: "",
       });
-      navigate("/dashboard/home");
+      navigate("/");
     },
   });
   const [formData, setFormData] = useState({
@@ -142,7 +142,7 @@ function CountryForm() {
 
   return (
     <>
-      <div className=" bg-journal bg-center h-screen flex justify-center pb-24 pt-8 lg:p-20 lg:pb-4">
+      <div className=" h-screen flex justify-center pb-24 pt-8 lg:p-20 lg:pb-4">
         <div className="formContainer bg-white p-6 md:p-8 rounded-lg shadow-lg flex flex-col items-center w-full max-w-lg overflow-y-auto">
           <div className="mr-auto ">
             <button className="ml-0" onClick={() => navigate(-1)}>

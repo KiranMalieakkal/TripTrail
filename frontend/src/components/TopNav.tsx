@@ -7,7 +7,7 @@ function TopNav() {
         <a className="btn btn-ghost text-xl text-white">TripTrail</a>
         <div className="flex flex-1 justify-around items-center ">
           <NavLink
-            to="home"
+            to="/"
             className={({ isActive }) =>
               isActive ? "text-white " : "text-gray-500 hover:text-white "
             }
@@ -27,7 +27,7 @@ function TopNav() {
             </div>
           </NavLink>
           <NavLink
-            to="map"
+            to="/map"
             className={({ isActive }) =>
               isActive ? "text-white " : "text-gray-500 hover:text-white "
             }
@@ -50,7 +50,7 @@ function TopNav() {
             </div>
           </NavLink>
           <NavLink
-            to="forum"
+            to="/forum"
             className={({ isActive }) =>
               isActive ? "text-white " : "text-gray-500 hover:text-white "
             }
@@ -74,7 +74,7 @@ function TopNav() {
             </div>
           </NavLink>
           <NavLink
-            to="profile"
+            to="/profile"
             className={({ isActive }) =>
               isActive ? "text-white " : "text-gray-500 hover:text-white "
             }

@@ -43,12 +43,12 @@ function Dashboard() {
       </div>
       <div className="">
         <Routes>
-          <Route path="home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="map" element={<MapComp />} />
           <Route path="profile" element={<Profile />} />
           <Route path="forum" element={<Forum />} />
-          <Route path="home/traveldetails/:id" element={<TravelEntry />} />
-          <Route path="home/form" element={<CountryForm />} />
+          <Route path="traveldetails/:id" element={<TravelEntry />} />
+          <Route path="form" element={<CountryForm />} />
         </Routes>
       </div>
       <div>
