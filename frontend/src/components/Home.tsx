@@ -30,7 +30,7 @@ function Home() {
       console.log("Authenticated");
       getAccessTokenSilently()
         .then((token) => {
-          console.log("token=", token);
+          // console.log("token=", token);
           setTheToken(token);
         })
         .catch((err) => {
